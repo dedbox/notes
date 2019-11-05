@@ -72,6 +72,78 @@ This could be automated. It was pretty common with Perl in the '90s.
 
 *** Where Code Meets Data :: The Art and Science of Dataflow Programming
 
+**** What Is Flow?
+
+Flow is a relation between space and time.
+
+https://en.wikipedia.org/wiki/Flux
+
+**** A Precise Definition
+
+At a point ~x~ = (~x₁~, ~x₂~, …, ~xₙ~) and a time ~t~,
+
+#+BEGIN_EXAMPLE
+φᴺ = f(x,t)
+#+END_EXAMPLE
+
+where ~x~ is a point in an N-dimensional space and ~t~ is a scalar value, like a real number.
+
+In practice, one of ~x~ or ~t~ remains fixed while the other varies.
+
+#+BEGIN_EXAMPLE
+φᴺ = f(x;t) ∪ f(t;x)
+#+END_EXAMPLE
+
+***** Zero-Dimensional Flow
+
+A <<0-flow>> is a value.
+
+#+BEGIN_EXAMPLE
+φ⁰ = f|x=C₁,t=C₂
+#+END_EXAMPLE
+
+For all time and space, [[0-flow]] is constant.
+
+***** One-Dimensional Flow
+
+A <<1-flow>> is a unary function.
+
+#+BEGIN_EXAMPLE
+φ¹(x₁,t) = f(t;x₁=C₁) ∪ f(x₁;t=C₂)
+#+END_EXAMPLE
+
+When ~x₁~ = ~C₁~ a constant, [[1-flow]] ~f(t;x₁=C₁)~ characterizes the passage of
+time at the fixed point ~x₁~ = ~C₁~ in a one-dimensional space. When ~t~ =
+~C₂~ a constant, [[1-flow]] ~f(x₁;t=C₂)~ characterizes all the points in a
+one-dimensional space at the fixed time ~t~ = ~C₂~.
+
+***** Two-Dimensional Flow
+
+A <<2-flow>> is a binary function.
+
+#+BEGIN_EXAMPLE
+φ²(x₁,x₂,t) = f(t;x₁=C₁,x₂=C₂) ∪ f(x₁,x₂;t=C₃)
+#+END_EXAMPLE
+
+When ~x₁~, ~x₂~ = ~C₁~, ~C₂~ constants, [[2-flow]] ~f(t;x₁=C₁,x₂=C₂)~
+characterizes a line through space as time passes. At every point on the line,
+[[2-flow] varies as time passes.
+
+***** N-Dimensional Flow
+
+A <<3-flow>> is a ternary function. At every point on a plane, [[3-flow]] varies with time.
+
+...
+
+An <<N-flow>> is an N-ary function. At any point in an (N-1)-dimensional
+hypercube, [[N-flow]] varies with time.
+
+A space has a fixed (but unbounded) number of dimensions. Each position in the
+continuum of space can be uniquely identified by a vector of N-1 real numbers.
+Time, on the other hand, is at most linear; it either remains constant or
+progresses monotonically in one direction or the other. Time is an index into
+a continuum of (N-1)-dimensional spaces.
+
 
 ** Graphics
    :PROPERTIES:
