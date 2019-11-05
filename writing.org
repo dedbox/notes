@@ -184,39 +184,72 @@ execute in real time.
 
 [[https://arxiv.org/abs/1909.10475][./img/legocad-to-minecraft.png]]
 
-[![Figure 1: LEGO-CAD Model to Minecraft Simulation](https://raw.githubusercontent.com/dedbox/dedbox.github.io/master/img/legocad-to-minecraft.png)](https://arxiv.org/abs/1909.10475)
+There's more to it than that, but the Minecraft mod is what caught my
+attention.
 
-There's more to it than that, but the Minecraft mod is what caught my attention.
-
-The paper also cites another paper, *[Minecraft as an experimental world for ai in robotics](https://www.aaai.org/ocs/index.php/FSS/FSS15/paper/viewPDFInterstitial/11725/11518)*. This one argues that using their Minecraft mod⁠—*BurlapCraft*⁠—as a research platform reduces the cost of experimenting with artificial intelligence for robots in three ways:
+The paper also cites another paper, /[[https://www.aaai.org/ocs/index.php/FSS/FSS15/paper/viewPDFInterstitial/11725/11518][Minecraft as an experimental world for ai
+in robotics]]/. This one argues that using their Minecraft mod⁠ — /BurlapCraft/ ⁠—
+as a research platform reduces the cost of experimenting with artificial
+intelligence for robots in three ways:
 
 1. Working in voxel space simplifies the development of experiments.
 2. Domain-specific functionality is integrated into the environment.
 3. Minecraft is popular and it has a gradual learning curve.
 
-![Figure 11: When issued the language command 'go to the gold block', the agent mines the multi-colored block and places it on the lava to cross over and reach the gold block.](https://raw.githubusercontent.com/dedbox/dedbox.github.io/master/img/minecraft-ai-find-gold-block.png)
+[[./img/minecraft-ai-find-gold-block.png]]
 
-I was at that symposium. It's where I started thinking about the potential of high-level voxel programming for applications that don't fit the block mining paradigm.
+I was at that symposium. It's where I started thinking about the potential of
+high-level voxel programming for applications that don't fit the block mining
+paradigm.
 
-# Voxels Beyond Minecraft
+**** Voxels Beyond Minecraft
 
-There's this great blog post, [How Voxels Became ‘The Next Big Thing’](https://medium.com/@EightyLevel/how-voxels-became-the-next-big-thing-4eb9665cd13a), that illustrates the power of using voxels as simple volumetric pixels instead of large, textured blocks. They make a compelling argument:
+There's this great blog post, [[https://medium.com/@EightyLevel/how-voxels-became-the-next-big-thing-4eb9665cd13a][How Voxels Became ‘The Next Big Thing’]], that
+illustrates the power of using voxels as simple volumetric pixels instead of
+large, textured blocks. They make a compelling argument:
 
-> Voxel-based representation is essential for creating massive shared interactive virtual environments that will, at some point, resemble the real world.
+#+BEGIN_QUOTE
+Voxel-based representation is essential for creating massive shared interactive virtual environments that will, at some point, resemble the real world.
+#+END_QUOTE
 
-The way they're using multiple levels of detail (LODs) is pretty awesome; it allows them to render each frame in time proportional to the number of pixels in the output.
+The way they're using multiple levels of detail (LODs) is pretty awesome; it
+allows them to render each frame in time proportional to the number of pixels
+in the output.
 
-[![Atomontage - complex desert terrain in multiple LODs](https://miro.medium.com/max/1024/0*neeMlGo6inNWXUoL.jpg)](https://medium.com/@EightyLevel/how-voxels-became-the-next-big-thing-4eb9665cd13a)
+#+CAPTION: https://miro.medium.com/max/1024/0*neeMlGo6inNWXUoL.jpg
+[[./img/atomontage-lods.jpg]]
 
-For a fixed display resolution, the ratio of pixels to triangles diminishes rapidly as the complexity of the scene increases. The people at [Atomontage](https://www.atomontage.com/) have been exploiting this property to simulate complex textured surfaces as grids of solid-colored voxels with interesting physical properties.
+For a fixed display resolution, the ratio of pixels to triangles diminishes
+rapidly as the complexity of the scene increases. The people at [[https://www.atomontage.com/][Atomontage]]
+have been exploiting this property to simulate complex textured surfaces as
+grids of solid-colored voxels with interesting physical properties.
 
-# Language-Oriented Voxel Programming
+**** Where Are All the Voxel Programming Environments?
 
-Providing this kind of functionality as a Racket library would go a long way toward putting shared volumetric simulations into the hands of more programmers. A general-purpose voxel programming environment could support complex 3-D visualizations and simulations. It could offer scriptable cameras, a variety of regular grid structures, and the ability to operate at any effective scale. It could have a REPL for peeking and poking at things as they play out. Casual programmers should be able to simulate clouds with voxels rendered as tiny diffuse balls that move freely along an octahedral lattice and interact with each other as a fluid.
+Providing this kind of functionality as a Racket library would go a long way
+toward putting shared volumetric simulations into the hands of more
+programmers. A general-purpose voxel programming environment could support
+complex 3-D visualizations and simulations. It could offer scriptable cameras,
+a variety of regular grid structures, and the ability to operate at any
+effective scale. It could have a REPL for peeking and poking at things as they
+play out. Casual programmers should be able to simulate clouds with voxels
+rendered as tiny diffuse balls that move freely along an octahedral lattice
+and interact with each other as a fluid.
 
-Voxel programming environments also have potential as a medium for growing effectively scale-invariant shared simulations. On a dual-core laptop with integrated graphics, I might be able to simulate the nearest few chunks comfortably. A desktop with four cores, hyper-threading, and a $200 graphics card might handle dozens more chunks in general, with options for pushing into the hundreds of chunks by off-loading calculations to the GPU. On a LAN, the laptop could become a dumb terminal that off-loads the entire simulation to the desktop. For simulations larger than the local network, distant chunks could be deployed to the cloud or more esoteric high-performance computing architectures. Imagine what could be simulated on a fully loaded Cray XC30!
+Voxel programming environments also have potential as a medium for growing
+effectively scale-invariant shared simulations. On a dual-core laptop with
+integrated graphics, I might be able to simulate the nearest few chunks
+comfortably. A desktop with four cores, hyper-threading, and a $200 graphics
+card might handle dozens more chunks in general, with options for pushing into
+the hundreds of chunks by off-loading calculations to the GPU. On a LAN, the
+laptop could become a dumb terminal that off-loads the entire simulation to
+the desktop. For simulations larger than the local network, distant chunks
+could be deployed to the cloud or more esoteric high-performance computing
+architectures. Imagine what could be simulated on a fully loaded Cray XC30!
 
-Voxels have the potential to transform every trade, discipline, and industry they touch. The world is waiting for a general-purpose voxel programming environment and just doesn't know it yet.
+Voxels have the potential to transform every trade, discipline, and industry
+they touch. The world is waiting for a general-purpose voxel programming
+environment and just doesn't know it yet.
 
 
 *** Voxel-Space Programming
