@@ -269,7 +269,14 @@ environment and just doesn't know it yet.
 
 **** Making GLM Faster
 
+***** On the CPU
 
+How does TR do it?
+
+
+***** On the GPU
+
+GPGPU with OpenGL: https://www.seas.upenn.edu/~cis565/fbo.htm
 
 
 *** The OpenGL Shader Language (GLSL)
@@ -316,7 +323,93 @@ environment and just doesn't know it yet.
 
 **** Micro-DSLs :: Seize the Means of Construction!
 
+Micro-DSLs are small programming languages specialized to the development of a
+particular application. Micro-DSLs are more specialized than DSLs which cover
+a whole application domain.
 
+***** What Is a Micro-DSL?
+
+A local macro
+ 
+#+BEGIN_SRC racket
+(define-syntax-rule (define-colors [name R G B] ...)
+  (define-values (name ...) (values (list R G B) ...)))
+
+(define-colors
+  ;;       R G B
+  [black   0 0 0]
+  [red     1 0 0]
+  [green   0 1 0]
+  [blue    0 0 1]
+  [cyan    0 1 1]
+  [magenta 1 0 1]
+  [yellow  1 1 0]
+  [white   1 1 1])
+#+END_SRC
+
+#+BEGIN_SRC racket
+> red
+'(1 0 0)
+> blue
+'(0 0 1)
+#+END_SRC
+
+A function and a macro
+
+#+BEGIN_SRC racket
+(define (info msg . args)
+  (when verbose? (displayln (format "info: ~a" (apply format msg args)))))
+
+(define config (new gl-config%))
+
+(define-syntax-rule (send-config/info name expr)
+  (let ([val expr]) (info "~a ~a" 'name val) (send config name val)))
+
+(send-config/info set-double-buffered #t)
+(send-config/info set-depth-size      24)
+(send-config/info set-stencil-size     0)
+(send-config/info set-multisample-size 0)
+#+END_SRC
+
+***** The Costs And Benefits of Meta-Programming
+
+Two kinds of macros:
+
+- code generation
+- code analysis
+
+****** Ex: Generating Procedures
+
+Original, no macros:
+
+#+BEGIN_SRC racket
+(define-values (set-center! set-position!)
+  (let ([proc (λ (f a b) (set! target (f a b)))])
+    (values (λ (width height) (^/ (^ width height) 2))
+            (λ (x y) (^ x y)))))
+#+END_SRC
+
+It works and its DRY, but it's harder to read than if we'd just typed
+everything out:
+
+#+BEGIN_SRC racket
+(define (set-center! width height) (set! center (^/ (^ width height) 2)))
+(define (set-position! x y) (set! position (^ x y)))
+#+END_SRC
+
+There's a cleaner way:
+
+#+BEGIN_SRC racket
+(define-syntax-rule (define-setters [name var a b val-expr] ...)
+  (begin (define (name a b) (set! var val-expr)) ...))
+
+(define-setters
+  ;; name        var      a     b      val-expr
+  [set-center!   center   width height (^/ (^ width height) 2)]
+  [set-position! position x     y      (^ x y)])
+#+END_SRC
+
+This is about as clean as the manual code without any duplication.
 
 
 *** Procedural Macros
@@ -403,7 +496,84 @@ environment and just doesn't know it yet.
 
 **** Meta-Languages Make a Mean Module Mix-in
 
+***** The Idea
 
+Write a small ~#lang~ shim to augment or bootstrap into another ~#lang~.
+
+Ex:
+#+BEGIN_SRC racket
+  #lang glm/swizzle racket/base
+
+  (define v (vec 1 2 3))
+
+  v.yzzx.wxy
+#+END_SRC
+
+~glm/swizzle~ is a "meta-language." It enables the ~read-cdot~ parameter, so
+reading the identifier ~v.yzzx.wxy~ produces the s-expression ~(#%dot (#%dot v
+yzzx) wxy)~. It also injects ~(require glm glm/swizzle)~ into a sub-module
+containing the rest of this file with ~racket/base~ as its module-path.
+
+#+BEGIN_SRC racket
+(define-syntax-parser swizzle-dot
+  [(dot a:expr b:swizzle-id) #'(swizzle a b)]
+  [(dot a b:id)
+   (define a* (local-expand #'a 'expression null))
+   (if (identifier? a*)
+       (format-id #'dot "~a.~a" a* #'b)
+       (raise-syntax-error #f "invalid swizzle" this-syntax))])
+#+END_SRC
+
+
+***** The Technique
+
+To avoid scoping issues, inject the statement that imports the ~#%dot~ macro
+into the body of the module being read.
+
+#+BEGIN_SRC racket
+  (define (swizzle-read port)
+    (parameterize ([read-cdot #t])
+      `(module ,(gensym 'swizzle) ,(read port)
+         (require glm glm/swizzle)
+         ,@(port->list read port))))
+#+END_SRC
+
+Putting it all together:
+
+#+BEGIN_SRC racket
+;;; glm/swizzle.rkt
+
+#lang racket/base
+
+(require syntax/parse/define
+         (for-syntax racket/base))
+
+(provide (rename-out [swizzle-dot #%dot])
+
+(define-syntax-parser swizzle-dot
+  [(dot a:expr b:swizzle-id) #'(swizzle a b)]
+  [(dot a b:id)
+   (define a* (local-expand #'a 'expression null))
+   (if (identifier? a*)
+       (format-id #'dot "~a.~a" a* #'b)
+       (raise-syntax-error #f "invalid swizzle" this-syntax))])
+
+(module reader racket/base
+  (require racket/port)
+
+  (provide (rename-out
+            [swizzle-read read]
+            [swizzle-read-syntax read-syntax]))
+
+  (define (swizzle-read port)
+    (parameterize ([read-cdot #t])
+      `(module ,(gensym 'swizzle) ,(read port)
+         (require glm glm/swizzle)
+         ,@(port->list read port))))
+
+  (define (swizzle-read-syntax path port)
+    (datum->syntax #f (swizzle-read port))))
+#+END_SRC
 
 
 ** SCD
