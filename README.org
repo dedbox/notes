@@ -5,8 +5,8 @@
 
 ** [[./reading.org][Reading]]
 
-[[reading.org#Design to Thrive][Design to Thrive]]
+[[file:reading.org::*Design%20to%20Thrive][Design to Thrive]]
 
 ** [[./writing.org][Writing]]
 
-[[reading.org#3D line voxelization and connectivity control][3D line voxelization and connectivity control]]
+[[file:reading.org::*3D%20line%20voxelization%20and%20connectivity%20control][3D line voxelization and connectivity control]]
