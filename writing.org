@@ -70,13 +70,14 @@ This could be automated. It was pretty common with Perl in the '90s.
     :VISIBILITY: children
     :END:
 
-*** Where Code Meets Data :: The Art and Science of Dataflow Programming
+*** Where Code Meets Data - The Art and Science of Dataflow Programming
 
 **** What Is Flow?
 
 Flow is a relation between space and time.
 
 https://en.wikipedia.org/wiki/Flux
+
 
 **** A Precise Definition
 
@@ -104,6 +105,7 @@ A <<0-flow>> is a value.
 
 For all time and space, [[0-flow]] is constant.
 
+
 ***** One-Dimensional Flow
 
 A <<1-flow>> is a unary function.
@@ -117,6 +119,7 @@ time at the fixed point ~x₁~ = ~C₁~ in a one-dimensional space. When ~t~ =
 ~C₂~ a constant, [[1-flow]] ~f(x₁;t=C₂)~ characterizes all the points in a
 one-dimensional space at the fixed time ~t~ = ~C₂~.
 
+
 ***** Two-Dimensional Flow
 
 A <<2-flow>> is a binary function.
@@ -128,6 +131,7 @@ A <<2-flow>> is a binary function.
 When ~x₁~, ~x₂~ = ~C₁~, ~C₂~ constants, [[2-flow]] ~f(t;x₁=C₁,x₂=C₂)~
 characterizes a line through space as time passes. At every point on the line,
 [[2-flow] varies as time passes.
+
 
 ***** N-Dimensional Flow
 
@@ -321,7 +325,7 @@ GPGPU with OpenGL: https://www.seas.upenn.edu/~cis565/fbo.htm
     :VISIBILITY: children
     :END:
 
-**** Micro-DSLs :: Seize the Means of Construction!
+**** Micro-DSLs - Seize the Means of Construction!
 
 Micro-DSLs are small programming languages specialized to the development of a
 particular application. Micro-DSLs are more specialized than DSLs which cover

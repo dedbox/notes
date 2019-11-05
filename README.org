@@ -13,7 +13,7 @@
 
 [[file:writing.org::*Dynamic%20Visual%20Alignment%20via%20Whitespace%20Edits][Dynamic Visual Alignment via Whitespace Edits]]
 
-[[file:writing.org::*Where%20Code%20Meets%20Data%20::%20The%20Art%20and%20Science%20of%20Dataflow%20Programming][Where Code Meets Data :: The Art and Science of Dataflow Programming]]
+[[file:writing.org::*Where%20Code%20Meets%20Data%20-%20The%20Art%20and%20Science%20of%20Dataflow%20Programming][Where Code Meets Data - The Art and Science of Dataflow Programming]]
 
 [[file:writing.org::*#lang%20graphics-engine][#lang graphics-engine]]
 
@@ -21,6 +21,6 @@
 
 [[file:writing.org::*Making%20GLM%20Faster][Making GLM Faster]]
 
-[[file:writing.org::*Micro-DSLs%20::%20Seize%20the%20Means%20of%20Construction!][Micro-DSLs :: Seize the Means of Construction!]]
+[[file:writing.org::*Micro-DSLs%20-%20Seize%20the%20Means%20of%20Construction!][Micro-DSLs - Seize the Means of Construction!]]
 
 [[file:writing.org::*Meta-Languages%20Make%20a%20Mean%20Module%20Mix-in][Meta-Languages Make a Mean Module Mix-in]]
