@@ -48,6 +48,62 @@ My routine:
 
 This could be automated. It was pretty common with Perl in the '90s.
 
+I saw sweet expressions recently. They look like s-expressions without the
+parentheses. It has a jarring appearance and I'm weary of the reduced
+whitespace freedom. There's value in the parentheses, or at least knowing
+where they go. I'd like to be able to toggle them off while retaining the
+spaces they occupy, though. It would make inspecting their (aligned) contents
+a lot easier.
+
+Like this C++ expression I ported to Racket.
+
+#+BEGIN_SRC c++
+  T OneOverDeterminant = static_cast<T>(1) /
+    (+ m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2])
+     - m[1][0] * (m[0][1] * m[2][2] - m[2][1] * m[0][2])
+     + m[2][0] * (m[0][1] * m[1][2] - m[1][1] * m[0][2]));
+#+END_SRC
+
+Here's the Racket version.
+
+#+BEGIN_SRC racket
+  (match-define (mat3 m00 m10 m20 m01 m11 m21 m02 m12 m22) m)
+  (define OneOverDeterminant
+    (/ 1 (+ (* m00 (- (* m11 m22) (* m12 m21)))
+            (* (- m01) (- (* m10 m22) (* m12 m20)))
+            (*  m02  (- (* m10 m21) (* m11 m20))))))
+#+END_SRC
+
+GLM matrices use column-major ordering, so the first column of ~m~ consists of
+its first 3 components. In C++, the first index is the column index, which
+give an appearance at odds with the traditional row-first notation. Whereas
+the C++ term ~m[1][0]~, for example, references the component at column 1, row
+0, I've chosen to name its Racket counterpart ~m01~.
+
+The fix is simple: swap the indices of every reference into ~m~ while
+transcribing. The tedium of doing it for many components can lead to
+transcription errors. Comparing visually aligned columns of indices, one at a
+time, is easier.
+
+#+BEGIN_SRC racket
+  (match-define (mat3 m00 m10 m20 m01 m11 m21 m02 m12 m22) m)
+  (define OneOverDeterminant
+        (/ 1 (+ (*    m00  (- (* m11 m22) (* m12 m21)))
+                (* (- m01) (- (* m10 m22) (* m12 m20)))
+                (*    m02  (- (* m10 m21) (* m11 m20))))))
+#+END_SRC
+
+Once I'm confident in the overall structure of the code, hiding the parentheses brings the values between them into sharper focus.
+
+#+BEGIN_EXAMPLE
+   define OneOverDeterminant
+         / 1  +  *    m00   -  * m11 m22   * m12 m21
+                 *  - m01   -  * m10 m22   * m12 m20
+                 *    m02   -  * m10 m21   * m11 m20
+#+END_EXAMPLE
+
+<toggle-parens>
+
 
 ** Data Economics
    :PROPERTIES:
