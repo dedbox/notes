@@ -182,9 +182,8 @@ mod as part of their evaluation. They turned LEGO schematics into plans for
 building things one piece at a time and then used Minecraft to watch the plans
 execute in real time.
 
-[[][[[./img/legocad-to-minecraft.png]]]
-
 #+CAPTION: [[https://arxiv.org/abs/1909.10475][Figure 1: LEGO-CAD Model to Minecraft Simulation]]
+[[./img/legocad-to-minecraft.png]]
 
 [![Figure 1: LEGO-CAD Model to Minecraft Simulation](https://raw.githubusercontent.com/dedbox/dedbox.github.io/master/img/legocad-to-minecraft.png)](https://arxiv.org/abs/1909.10475)
 
