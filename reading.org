@@ -95,3 +95,92 @@ It has to be respected.
    :END:
 
 *** 3D line voxelization and connectivity control
+
+Cohen-Or, Daniel, and Arie Kaufman. [[https://pdfs.semanticscholar.org/03fe/68b646679be5d5b4fbea1e42bf1cb4d82a4b.pdf][3D line voxelization and connectivity control]]. /IEEE Computer Graphics and Applications 17/, no. 6 (1997): 80-87.
+
+A <<line voxelization algorithm>> transforms a continuous line into a [[https://en.wikipedia.org/wiki/Isolated_point][discrete
+set]] of vertices connected by the line in a [[https://en.wikipedia.org/wiki/Regular_grid][regular grid]].
+
+**** Properties of Discrete Lines
+
+***** Adjacency
+
+#+BEGIN_QUOTE
+Every voxel has 26 adjacent voxels: eight share a corner (vertex) with the
+center voxel, twelve share an edge, and six share a face.
+#+END_QUOTE
+
+Voxels are:
+
+- <<6-adjacent>> if they share a face
+- <<18-adjacent>> if they share a face or an edge
+- <<26-adjacent>> if they share a face, an edge, or a vertex
+- <<N-adjacent>> if they are one of the above
+
+For any N ∈ {6,18,26}, an <<N-path>> (<<6-path>>, <<18-path>>, <<24-path>>) is
+a consecutive sequence of pairs of [[N-adjacent]] voxels.
+
+A set of voxels A is <<N-connected>> if there is an [[N-path]] between every pair
+of voxels in A.
+
+An <<N-line>> is an [[N-path]] that represents a continuous line.
+
+A <<discrete line>> is an [[N-path]] where all its voxels touch a particular
+continuous line.
+
+***** Tunnels
+
+A <<tunnel>> is a hole in a voxel surface that does not exist in its
+continuous counterpart. *Voxelized surfaces should have no holes.*
+
+***** Distance
+
+The <<6-distance>> (<<d6>>) between two voxels is the length of the shortest
+[[6-path]] between them.
+
+The <<18-distance>> (<<d18>>) and <<26-distance>> (<<d26>>) are defined
+similarly.
+
+[[d6]] and [[d26]] are [[https://en.wikipedia.org/wiki/Metric_(mathematics)][metrics]] in a voxel space.
+
+For lines parallel to a primary axis, [[d6]] = [[d26]]. For lines diagonal to the
+primary axes, [[d6]] = 3·[[d26]].
+
+#+BEGIN_QUOTE
+The shortest path between two voxels is not necessarily the best approximation
+of the continuous line.
+#+END_QUOTE
+
+***** Proximity Flag
+
+A 26-ray can be traced faster than an equivalent 6-ray, but it might fall into
+a [[tunnel]]. To get the speed of 26-rays with the containment property of 6-rays,
+add a <<proximity flag>> to the voxels near the surface of an object. Then, a
+ray can move quickly (as a 26-ray) through un-flagged voxels while proceeding
+more carefully (as a 6-ray) through flagged voxels.
+
+(aside: what are "non-binary" voxels?)
+
+***** A 26-line algorithm
+
+[[https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm][Bresenham's line algorithm]]:
+
+#+BEGIN_QUOTE
+an incremental algorithm that generates a sequence of discrete pixels, where
+at each step the next pixel is selected from two adjacent neighbors of the
+current pixel just drawn. The selected neighbor is the one which minimizes the
+error from the continuous line [10].
+#+END_QUOTE
+
+Important implementation detail:
+
+#+BEGIN_QUOTE
+The algorithm evaluates the residual error /e/ at a midpoint between the two
+adjacent pixel candidates, where the sign of /e/ indicates which of the two
+candidates is closer to the continuous line.
+#+END_QUOTE
+
+***** The Tripod 6-line Algorithm
+
+The tripod algorithm "generates [a] 6-line by tracking the projections of the
+3D line one the three main axes planes."
