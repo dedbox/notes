@@ -1,1 +1,5 @@
 * Notes
+
+** [[./reading.org][Reading]]
+
+** [[./writing.org][Writing]]

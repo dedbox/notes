@@ -1,0 +1,19 @@
+* Reading
+  :PROPERTIES:
+  :VISIBILITY: children
+  :END:
+
+** Books
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Design to Thrive
+
+
+** Papers
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** 3D line voxelization and connectivity control
