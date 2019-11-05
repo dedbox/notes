@@ -7,6 +7,8 @@
 
 [[file:reading.org::*Design%20to%20Thrive][Design to Thrive]]
 
+[[file:reading.org::*3D%20line%20voxelization%20and%20connectivity%20control][3D line voxelization and connectivity control]]
+
 ** [[./writing.org][Writing]]
 
-[[file:reading.org::*3D%20line%20voxelization%20and%20connectivity%20control][3D line voxelization and connectivity control]]
+[[file:writing.org::*Dynamic%20Visual%20Alignment%20via%20Whitespace%20Edits][Dynamic Visual Alignment via Whitespace Edits]]

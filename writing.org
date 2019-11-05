@@ -1,1 +1,244 @@
 * Writing
+  :PROPERTIES:
+  :VISIBILITY: children
+  :END:
+
+** Philosophy of Programming
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Program vs. Process :: The World Is Not a Document
+
+
+*** The Coder's Journey :: Programming Languages Are like Martial Arts
+
+
+*** The Documentation Divide :: Separating the Beginners from the Experts
+
+
+*** Staking Claims :: An Essay on the Nature and Significance of Software Community-Building
+
+
+*** Dynamic Visual Alignment via Whitespace Edits
+
+#+BEGIN_SRC racket
+  #:with for/*mat-columns (format-id #'*mat  "for/~a-columns" #'*mat)
+  #:with for*/*mat-columns (format-id #'*mat "for*/~a-columns" #'*mat)
+#+END_SRC
+
+vs
+
+#+BEGIN_SRC racket
+  #:with  for/*mat-columns (format-id #'*mat  "for/~a-columns" #'*mat)
+  #:with for*/*mat-columns (format-id #'*mat "for*/~a-columns" #'*mat)
+#+END_SRC
+
+My routine:
+
+1. Inject aligning whitespace to "open up" the code and align structural elements
+  - syntactic patterns that reflect semantic patterns
+  - e.g., above: `#:with` keywords, `/*mat-columns` suffix, parens around expression, ...
+  - align columns of related syntax left or right
+  - "weighted minimal edit distance" heuristic
+2. Edit the code
+3. Re-normalize whitespace to "pack up" the code for "storage."
+
+<whitespace-routine.gif>
+
+This could be automated. It was pretty common with Perl in the '90s.
+
+
+** Data Economics
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Social Computing
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+*** What's a FLOP Worth?
+
+
+*** When the Map Becomes the Territory :: Establishing New Data Markets via Gamification
+
+
+*** Data Flow
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+*** Where Code Meets Data :: The Art and Science of Dataflow Programming
+
+
+** Graphics
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** #lang graphics-engine
+
+
+*** Voxels Are for More Than Just Mining
+
+
+*** Voxel-Space Programming
+
+
+
+*** The OpenGL Math Library (GLM)
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** How Fast Is GLM for Racket?
+
+
+**** Getting Started with GLM
+
+
+**** Making GLM Faster
+
+
+
+
+*** The OpenGL Shader Language (GLSL)
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Introducing GLSL for Racket
+
+
+**** Shader DSLs
+
+
+
+
+** Functional Racket
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Curry, Compose, Conjoin, Apply
+
+
+*** Multi-Valued Expressions
+
+
+*** Pattern Matching
+
+
+*** Custom Printing and Equality Checks
+
+
+
+
+** Racket Meta-Programming
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Pattern-based Macros
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Micro-DSLs :: Seize the Means of Construction!
+
+
+
+
+*** Procedural Macros
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Syntax Objects
+
+
+**** syntax-parse and Optional Patterns
+
+
+**** First-Order Macros
+     :PROPERTIES:
+     :VISIBILITY: children
+     :END:
+
+***** Transformer Bindings
+
+
+***** Syntax Transformers
+
+
+***** Compile-Time Structs
+
+
+
+
+**** Higher-Order Macros
+     :PROPERTIES:
+     :VISIBILITY: children
+     :END:
+
+***** Recursive Macros :: Inside #lang GLSL
+
+
+***** Macro Generation :: Just Another Kind of Term Rewriting
+
+
+***** Syntax Parameters
+
+
+***** Scopes and Module Boundaries
+
+
+
+
+*** Whole-Program Transformations
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Module-Level Keywords
+
+
+**** Algebraic Data Types
+
+
+**** Exhaustivity Checks
+
+
+**** Totality Checks
+
+
+
+
+*** Language-Oriented Programming
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** A #lang Primer
+
+
+**** Simply-Typed Racket
+
+
+**** Recur, Eval, Co-Recur :: DSLs for Data Formats
+
+
+**** Like Bread and Butter :: #%module-begin and local-require
+
+
+**** Meta-Languages Make a Mean Module Mix-in
+
+
+
+
+** SCD
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
