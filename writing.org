@@ -437,7 +437,7 @@ offers the highest throughput.
 
 If you're looking for blazing fast CPU-based matrix math, take a look at
 ~flvector~ or a library based on it. GLM for Racket (can soon say it) uses
-them to deliver peak performance with the convenience of untyped Racket.
+~flvector~ to deliver peak performance with the convenience of untyped Racket.
 
 
 **** Getting Started with GLM
