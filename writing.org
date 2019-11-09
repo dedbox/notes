@@ -340,6 +340,8 @@ multiplication, so that's what I'm measuring here.
 (I might also do a "data science"-flavored variant: vector multiplication, one
 thousand 64-bit elements per vector)
 
+Single core. One thread. No mutation.
+
 
 ***** The Contenders
 
