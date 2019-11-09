@@ -382,8 +382,8 @@ TODO
 [[./img/glm-high-bars.svg]]
 
 These bar charts are pretty striking. The first two show that the difference
-from fastest to slowest is so great, we're really talking about orders of
-magnitude.
+from fastest to slowest is so great, we're really talking about changes in
+order of magnitude.
 
 The final two charts split the data at 100K instructions/sec. I'll start at the low end.
 
