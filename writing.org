@@ -358,10 +358,11 @@ thousand 64-bit elements per vector)
 
 ***** The Experiment
 
-200 iterations of a fully-compiled four-component vector multiplier with 8
-different vector implementations and then made some data plots.
-
-Single core. One thread. No mutation.
+- 200 iterations of a fully-compiled four-component vector multiplier
+- 8 different vector implementations
+- 1 core
+- 1 thread
+- no mutation
 
 The benchmarking code is available [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]].
 
