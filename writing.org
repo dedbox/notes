@@ -330,16 +330,6 @@ way."
 
 It turns out Typed Racket isn't the fastest game in town. Not even close.
 
-***** The Secret
-
-flonums are the "unicode" of vector format: Racket CS uses them internally and
-[[https://groups.google.com/d/topic/racket-users/Di-fTifWyWg/discussion][reducing precision hurts performance]]:
-
-#+BEGIN_QUOTE
-My guess is that no one uses them currently, because it's rare that you'd want
-to trade speed for *im*precision.
-#+END_QUOTE
-
 
 ***** The Challenge
 
@@ -424,11 +414,25 @@ Using the specialized function directly bypasses the dynamic dispatch
 mechanism and doubles throughput once more.
 
 
+***** The Secret Sauce
+
+flonums are the "unicode" of vector format: Racket CS uses them internally and
+[[https://groups.google.com/d/topic/racket-users/Di-fTifWyWg/discussion][reducing precision hurts performance]]:
+
+#+BEGIN_QUOTE
+My guess is that no one uses them currently, because it's rare that you'd want
+to trade speed for *im*precision.
+#+END_QUOTE
+
+It stands to reason that the type closest to the internal representation
+offers the highest throughput.
+
+
 ***** The Takeaway
 
-If you're looking for blazing fast CPU-based matrix math, take a look at GLM
-for Racket. It (can soon say it) delivers the performance of flvectors with
-the convenience of popular Racket idioms.
+If you need for blazing fast CPU-based matrix math, take a look at flvectors
+or a library based on them. GLM for Racket (can soon say it) uses flvectors to
+deliver peak performance with the convenience of untyped Racket.
 
 
 **** Getting Started with GLM
