@@ -323,6 +323,13 @@ environment and just doesn't know it yet.
 
 **** GLM for Racket is (going to be) F---in' Fast!
 
+Trawling through racket-users, it's pretty clear that people take the
+"Performance Warning" atop the math/array docs to mean that Typed Racket is
+"the fast way" to do matrix arithmetic whereas untyped Racket is "the slow
+way."
+
+It turns out Typed Racket isn't the fastest game in town. Not even close.
+
 ***** The Secret
 
 flonums are the "unicode" of vector format: Racket CS uses them internally and
@@ -336,9 +343,12 @@ to trade speed for *im*precision.
 
 ***** The Challenge
 
-Computer Graphics: vector multiplication, four 32-bit elements per vector
+Four-component vector operations are the nuts and bolts of computer graphics
+programming. Recent experience suggests the most common operation is
+multiplication, so that's what I'm measuring here.
 
-Data Science: vector multiplication, one thousand 64-bit elements per vector
+(I might also do a "data science"-flavored variant: vector multiplication, one
+thousand 64-bit elements per vector)
 
 
 ***** The Contenders
@@ -360,6 +370,8 @@ Data Science: vector multiplication, one thousand 64-bit elements per vector
 
 TODO
 
+(code is [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]])
+
 
 ***** The Data
 
@@ -378,6 +390,36 @@ TODO
 [[./img/glm-low-bars.svg]]
 
 [[./img/glm-high-bars.svg]]
+
+These bar charts are pretty striking. The first two show that the difference
+from fastest to slowest is so great, we're really talking about orders of
+magnitude.
+
+The final two charts split the data at 100K instructions/sec. I'll start at the low end.
+
+Using math/array in untyped Racket is the worst choice by a wide margin. The
+math/array API is uncommonly rich, so this isn't exactly a surprise. Excepting
+personal shortcomings and periods of cognitive impairment, the only reason to
+take this route is the convenience of exploring in untyped Racket things you
+expect to re-implement in Typed Racket later because you need features unique
+to math/array or math/matrix.
+
+For a baseline comparison, I moved only the vector arithmetic into a Typed
+Racket module. Prevailing wisdom tells us this is "the slow way" to do, well,
+anything with Typed Racket. I actually saw a 3x boost. Moving the entire
+benchmark into Typed Racket breaks the low end of the scale at 0.5M
+instructions/sec, but Typed Racket does not make the top three. The next best
+thing -- bare Racket vectors -- are twice as fast but still only clock in at
+half the speed of flvectors, which comes out on top with a whopping 2.2M
+instructions/sec. That's 4x more throughput than fully-typed matrix/array and
+over 1600x untyped matrix/array. Yikes.
+
+The current GLM for Racket implementation uses ffi/unsafe arrays. By default,
+its arithmetic operations use the types of their arguments to dispatch to a
+more specialized function at run time. With dynamic dispatch enabled, I saw 2x
+throughput over the perceived worst case and 15x over the actual worst case.
+Using the specialized function directly bypasses the dynamic dispatch
+mechanism and doubles throughput once more.
 
 
 **** Getting Started with GLM
