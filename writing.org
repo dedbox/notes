@@ -348,6 +348,8 @@ Data Science: vector multiplication, one thousand 64-bit elements per vector
   - typed->untyped
   - fully typed
 - ffi/unsafe array
+  - dynamic dispatch
+  - static dispatch
 - vector
 - flvector
   - standard
