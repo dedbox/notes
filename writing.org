@@ -417,8 +417,8 @@ function doubles throughput once more.
 
 ***** The Secret Sauce
 
-flonums are the "unicode" of vector format: Racket CS uses them internally and
-[[https://groups.google.com/d/topic/racket-users/Di-fTifWyWg/discussion][reducing precision hurts performance]]:
+In Racket, flonums are the "unicode" of vector format. Racket CS uses them
+internally and [[https://groups.google.com/d/topic/racket-users/Di-fTifWyWg/discussion][reducing precision hurts performance]]:
 
 #+BEGIN_QUOTE
 My guess is that no one uses them currently, because it's rare that you'd want
