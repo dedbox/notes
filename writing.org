@@ -414,12 +414,21 @@ half the speed of flvectors, which comes out on top with a whopping 2.2M
 instructions/sec. That's 4x more throughput than fully-typed matrix/array and
 over 1600x untyped matrix/array. Yikes.
 
+(aside: I'm not sure why the unsafe variant ran slower. I might be doing something wrong there, so I won't speak to that result yet.)
+
 The current GLM for Racket implementation uses ffi/unsafe arrays. By default,
 its arithmetic operations use the types of their arguments to dispatch to a
 more specialized function at run time. With dynamic dispatch enabled, I saw 2x
 throughput over the perceived worst case and 15x over the actual worst case.
 Using the specialized function directly bypasses the dynamic dispatch
 mechanism and doubles throughput once more.
+
+
+***** The Takeaway
+
+If you're looking for blazing fast CPU-based matrix math, take a look at GLM
+for Racket. It (can soon say it) delivers the performance of flvectors with
+the convenience of popular Racket idioms.
 
 
 **** Getting Started with GLM
