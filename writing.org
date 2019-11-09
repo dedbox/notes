@@ -321,7 +321,7 @@ environment and just doesn't know it yet.
     :VISIBILITY: children
     :END:
 
-**** GLM for Racket is (going to be) Damn Fast
+**** GLM for Racket is (going to be) F---in' Fast!
 
 ***** The Secret
 
@@ -355,6 +355,8 @@ Data Science: vector multiplication, one thousand 64-bit elements per vector
 
 
 ***** The Experiment
+
+TODO
 
 
 ***** The Data
