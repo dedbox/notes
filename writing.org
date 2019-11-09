@@ -340,8 +340,6 @@ multiplication, so that's what I'm measuring here.
 (I might also do a "data science"-flavored variant: vector multiplication, one
 thousand 64-bit elements per vector)
 
-Single core. One thread. No mutation.
-
 
 ***** The Contenders
 
@@ -360,9 +358,12 @@ Single core. One thread. No mutation.
 
 ***** The Experiment
 
-TODO
+200 iterations of a fully-compiled four-component vector multiplier with 8
+different vector implementations and then made some data plots.
 
-(code is [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]])
+Single core. One thread. No mutation.
+
+The benchmarking code is available [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]].
 
 
 ***** The Data
