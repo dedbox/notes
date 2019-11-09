@@ -389,7 +389,8 @@ These bar charts are pretty striking. The first two show that the difference
 from fastest to slowest is so great, we're really talking about changes in
 order of magnitude.
 
-The final two charts split the data at 100K instructions/sec. I'll start at the low end.
+The final two charts split the data at 100K instructions/sec. I'll start at
+the low end.
 
 Using ~math/array~ in untyped Racket is the worst choice by a wide margin. The
 ~math/array~ API is uncommonly rich, so this isn't exactly a surprise.
@@ -402,11 +403,11 @@ For a baseline comparison, I moved only the vector arithmetic into a Typed
 Racket module. Prevailing wisdom tells us this is "the slow way" to do, well,
 anything with Typed Racket. I actually saw a 3x boost. Moving the entire
 benchmark into Typed Racket breaks the low end of the scale at 0.5M
-instructions/sec. The next best thing -- bare Racket ~vector~'s -- are twice
-as fast but still only clock in at half the speed of ~flvector~'s, which come
-out on top with a whopping 2.2M instructions/sec. That's 4x more throughput
-than fully-typed ~matrix/array~ and over 1600x more than untyped
-~matrix/array~. Yikes.
+instructions/sec. The next best thing -- bare Racket ~vector~s -- are twice as
+fast but still only clock in at half the speed of ~flvector~s, which come out
+on top with a whopping 2.2M instructions/sec. That's 4x more throughput than
+fully-typed ~matrix/array~ and over 1600x more than untyped ~matrix/array~.
+Yikes.
 
 (aside: I'm not sure why the unsafe variant ran slower. I might be doing something wrong there, so I won't speak to that result yet.)
 
@@ -435,7 +436,7 @@ offers the highest throughput.
 ***** The Takeaway
 
 If you're looking for blazing fast CPU-based matrix math, take a look at
-~flvector~'s or a library based on them. GLM for Racket (can soon say it) uses
+~flvector~s or a library based on them. GLM for Racket (can soon say it) uses
 them to deliver peak performance with the convenience of untyped Racket.
 
 
