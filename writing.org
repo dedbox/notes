@@ -321,7 +321,59 @@ environment and just doesn't know it yet.
     :VISIBILITY: children
     :END:
 
-**** How Fast Is GLM for Racket?
+**** GLM for Racket is (going to be) Damn Fast
+
+***** The Secret
+
+flonums are the "unicode" of vector format: Racket CS uses them internally and
+[[https://groups.google.com/d/topic/racket-users/Di-fTifWyWg/discussion][reducing precision hurts performance]]:
+
+#+BEGIN_QUOTE
+My guess is that no one uses them currently, because it's rare that you'd want
+to trade speed for *im*precision.
+#+END_QUOTE
+
+
+***** The Challenge
+
+Computer Graphics: vector multiplication, four 32-bit elements per vector
+
+Data Science: vector multiplication, one thousand 64-bit elements per vector
+
+
+***** The Contenders
+
+- math/array
+  - untyped
+  - typed->untyped
+  - fully typed
+- ffi/unsafe array
+- vector
+- flvector
+  - standard
+  - unsafe
+
+
+***** The Experiment
+
+
+***** The Data
+
+[[./img/glm-all-lines-log.svg]]
+
+[[./img/glm-all-lines-linear.svg]]
+
+[[./img/glm-low-lines.svg]]
+
+[[./img/glm-high-lines.svg]]
+
+[[./img/glm-all-bars-log.svg]]
+
+[[./img/glm-all-bars-linear.svg]]
+
+[[./img/glm-low-bars.svg]]
+
+[[./img/glm-high-bars.svg]]
 
 
 **** Getting Started with GLM
