@@ -1,18 +1,17 @@
-* Reading
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+* Books
   :PROPERTIES:
   :VISIBILITY: children
   :END:
 
-** Books
-   :PROPERTIES:
-   :VISIBILITY: children
-   :END:
-
-*** Design to Thrive
+** Design to Thrive
 
 [[https://dl.acm.org/citation.cfm?id=1841456][Howard, Tharon. /Design to Thrive: Creating social networks and online communities that last./ Morgan Kaufmann, 2009.]]
 
-**** Scope
+*** Scope
 
 Five type of online groups people have paid the author to create:
 
@@ -36,7 +35,7 @@ Five type of online groups people have paid the author to create:
   - learn how to design and participate in successful communities
 
 
-**** RIBS
+*** RIBS
 
 The four elements necessary for long-term success:
 
@@ -45,7 +44,7 @@ The four elements necessary for long-term success:
 - *B* elonging
 - *S* ignificance
 
-***** Remuneration
+**** Remuneration
 
 #+BEGIN_QUOTE
 [P]eople need to believe that they will obtain some positive return on the
@@ -54,7 +53,7 @@ in a community. Individuals will not become members of a social network unless
 there is a clear benefit for doing so.
 #+END_QUOTE
 
-***** Influence
+**** Influence
 
 #+BEGIN_QUOTE
 Essentially, influence means giving the members of the community a clear sense
@@ -62,7 +61,7 @@ that they have a voice in the community and control over how their voice will
 be heard.
 #+END_QUOTE
 
-***** Belonging
+**** Belonging
 
 #+BEGIN_QUOTE
 Successful communities have secret handshakes, special languages, icons,
@@ -71,7 +70,7 @@ cultivate that strong emotional attachment to others in the community, that
 strong feeling of belonging.
 #+END_QUOTE
 
-***** Significance
+**** Significance
 
 #+BEGIN_QUOTE
 [I]n order for a community to be successful it has to be seen as significant.
@@ -79,7 +78,7 @@ It has to be respected.
 #+END_QUOTE
 
 
-**** Social Networks vs. Online Communities
+*** Social Networks vs. Online Communities
 
 | Social Networks                                | Online Communities                                              |
 |------------------------------------------------+-----------------------------------------------------------------|
@@ -89,21 +88,21 @@ It has to be respected.
 | Primary contact is harder.                     | Primary contact is easier.                                      |
 
 
-** Papers
-   :PROPERTIES:
-   :VISIBILITY: children
-   :END:
+* Papers
+  :PROPERTIES:
+  :VISIBILITY: children
+  :END:
 
-*** 3D line voxelization and connectivity control
+** 3D line voxelization and connectivity control
 
 Cohen-Or, Daniel, and Arie Kaufman. [[https://pdfs.semanticscholar.org/03fe/68b646679be5d5b4fbea1e42bf1cb4d82a4b.pdf][3D line voxelization and connectivity control]]. /IEEE Computer Graphics and Applications 17/, no. 6 (1997): 80-87.
 
 A <<line voxelization algorithm>> transforms a continuous line into a [[https://en.wikipedia.org/wiki/Isolated_point][discrete
 set]] of vertices connected by the line in a [[https://en.wikipedia.org/wiki/Regular_grid][regular grid]].
 
-**** Properties of Discrete Lines
+*** Properties of Discrete Lines
 
-***** Adjacency
+**** Adjacency
 
 #+BEGIN_QUOTE
 Every voxel has 26 adjacent voxels: eight share a corner (vertex) with the
@@ -128,12 +127,12 @@ An <<N-line>> is an [[N-path]] that represents a continuous line.
 A <<discrete line>> is an [[N-path]] where all its voxels touch a particular
 continuous line.
 
-***** Tunnels
+**** Tunnels
 
 A <<tunnel>> is a hole in a voxel surface that does not exist in its
 continuous counterpart. *Voxelized surfaces should have no holes.*
 
-***** Distance
+**** Distance
 
 The <<6-distance>> (<<d6>>) between two voxels is the length of the shortest
 [[6-path]] between them.
@@ -151,7 +150,7 @@ The shortest path between two voxels is not necessarily the best approximation
 of the continuous line.
 #+END_QUOTE
 
-***** Proximity Flag
+**** Proximity Flag
 
 A 26-ray can be traced faster than an equivalent 6-ray, but it might fall into
 a [[tunnel]]. To get the speed of 26-rays with the containment property of 6-rays,
@@ -161,7 +160,7 @@ more carefully (as a 6-ray) through flagged voxels.
 
 (aside: what are "non-binary" voxels?)
 
-***** A 26-line algorithm
+**** A 26-line algorithm
 
 [[https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm][Bresenham's line algorithm]]:
 
@@ -180,7 +179,7 @@ adjacent pixel candidates, where the sign of /e/ indicates which of the two
 candidates is closer to the continuous line.
 #+END_QUOTE
 
-***** The Tripod 6-line Algorithm
+**** The Tripod 6-line Algorithm
 
 The tripod algorithm "generates [a] 6-line by tracking the projections of the
 3D line one the three main axes planes."

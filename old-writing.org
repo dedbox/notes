@@ -1,0 +1,807 @@
+* Writing
+  :PROPERTIES:
+  :VISIBILITY: children
+  :END:
+
+** Philosophy of Programming
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Program vs. Process :: The World Is Not a Document
+
+
+*** The Coder's Journey :: Programming Languages Are like Martial Arts
+
+
+*** The Documentation Divide :: Separating the Beginners from the Experts
+
+
+*** Staking Claims :: An Essay on the Nature and Significance of Software Community-Building
+
+
+*** Dynamic Visual Alignment via Whitespace Edits
+
+#+BEGIN_SRC racket
+  #:with for/*mat-columns (format-id #'*mat  "for/~a-columns" #'*mat)
+  #:with for*/*mat-columns (format-id #'*mat "for*/~a-columns" #'*mat)
+#+END_SRC
+
+vs
+
+#+BEGIN_SRC racket
+  #:with  for/*mat-columns (format-id #'*mat  "for/~a-columns" #'*mat)
+  #:with for*/*mat-columns (format-id #'*mat "for*/~a-columns" #'*mat)
+#+END_SRC
+
+My routine:
+
+1. Inject aligning whitespace to "open up" the code and align structural elements
+  - syntactic patterns that reflect semantic patterns
+  - e.g., above: `#:with` keywords, `/*mat-columns` suffix, parens around expression, ...
+  - align columns of related syntax left or right
+  - "weighted minimal edit distance" heuristic
+2. Edit the code
+3. Re-normalize whitespace to "pack up" the code for "storage."
+
+<whitespace-routine.gif>
+
+This could be automated. It was pretty common with Perl in the '90s.
+
+I saw sweet expressions recently. They look like s-expressions without the
+parentheses. It has a jarring appearance and I'm weary of the reduced
+whitespace freedom. There's value in the parentheses, or at least knowing
+where they go. I'd like to be able to toggle them off while retaining the
+spaces they occupy, though. It would make inspecting their (aligned) contents
+a lot easier.
+
+Like this C++ expression I ported to Racket.
+
+#+BEGIN_SRC c++
+  T OneOverDeterminant = static_cast<T>(1) /
+    (+ m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2])
+     - m[1][0] * (m[0][1] * m[2][2] - m[2][1] * m[0][2])
+     + m[2][0] * (m[0][1] * m[1][2] - m[1][1] * m[0][2]));
+#+END_SRC
+
+Here's the Racket version.
+
+#+BEGIN_SRC racket
+  (match-define (mat3 m00 m10 m20 m01 m11 m21 m02 m12 m22) m)
+  (define OneOverDeterminant
+    (/ 1 (+ (* m00 (- (* m11 m22) (* m12 m21)))
+            (* (- m01) (- (* m10 m22) (* m12 m20)))
+            (*  m02  (- (* m10 m21) (* m11 m20))))))
+#+END_SRC
+
+GLM matrices use column-major ordering, so the first column of ~m~ consists of
+its first 3 components. In C++, the first index is the column index, which
+give an appearance at odds with the traditional row-first notation. Whereas
+the C++ term ~m[1][0]~, for example, references the component at column 1, row
+0, I've chosen to name its Racket counterpart ~m01~.
+
+The fix is simple: swap the indices of every reference into ~m~ while
+transcribing. The tedium of doing it for many components can lead to
+transcription errors. Comparing visually aligned columns of indices, one at a
+time, is easier.
+
+#+BEGIN_SRC racket
+  (match-define (mat3 m00 m10 m20 m01 m11 m21 m02 m12 m22) m)
+  (define OneOverDeterminant
+        (/ 1 (+ (*    m00  (- (* m11 m22) (* m12 m21)))
+                (* (- m01) (- (* m10 m22) (* m12 m20)))
+                (*    m02  (- (* m10 m21) (* m11 m20))))))
+#+END_SRC
+
+Once I'm confident in the overall structure of the code, hiding the parentheses brings the values between them into sharper focus.
+
+#+BEGIN_EXAMPLE
+   define OneOverDeterminant
+         / 1  +  *    m00   -  * m11 m22   * m12 m21
+                 *  - m01   -  * m10 m22   * m12 m20
+                 *    m02   -  * m10 m21   * m11 m20
+#+END_EXAMPLE
+
+<toggle-parens>
+
+
+** Data Economics
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Social Computing
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+*** What's a FLOP Worth?
+
+
+*** When the Map Becomes the Territory :: Establishing New Data Markets via Gamification
+
+
+*** Data Flow
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+*** Where Code Meets Data - The Art and Science of Dataflow Programming
+
+**** What Is Flow?
+
+Flow is a relation between space and time.
+
+https://en.wikipedia.org/wiki/Flux
+
+
+**** A Precise Definition
+
+At a point ~x~ = (~x₁~, ~x₂~, …, ~xₙ~) and a time ~t~,
+
+#+BEGIN_EXAMPLE
+φᴺ = f(x,t)
+#+END_EXAMPLE
+
+where ~x~ is a point in an N-dimensional space and ~t~ is a scalar value, like a real number.
+
+In practice, one of ~x~ or ~t~ remains fixed while the other varies.
+
+#+BEGIN_EXAMPLE
+φᴺ = f(x;t) ∪ f(t;x)
+#+END_EXAMPLE
+
+***** Zero-Dimensional Flow
+
+A <<0-flow>> is a value.
+
+#+BEGIN_EXAMPLE
+φ⁰ = f|x=C₁,t=C₂
+#+END_EXAMPLE
+
+For all time and space, [[0-flow]] is constant.
+
+
+***** One-Dimensional Flow
+
+A <<1-flow>> is a unary function.
+
+#+BEGIN_EXAMPLE
+φ¹(x₁,t) = f(t;x₁=C₁) ∪ f(x₁;t=C₂)
+#+END_EXAMPLE
+
+When ~x₁~ = ~C₁~ a constant, [[1-flow]] ~f(t;x₁=C₁)~ characterizes the passage of
+time at the fixed point ~x₁~ = ~C₁~ in a one-dimensional space. When ~t~ =
+~C₂~ a constant, [[1-flow]] ~f(x₁;t=C₂)~ characterizes all the points in a
+one-dimensional space at the fixed time ~t~ = ~C₂~.
+
+
+***** Two-Dimensional Flow
+
+A <<2-flow>> is a binary function.
+
+#+BEGIN_EXAMPLE
+φ²(x₁,x₂,t) = f(t;x₁=C₁,x₂=C₂) ∪ f(x₁,x₂;t=C₃)
+#+END_EXAMPLE
+
+When ~x₁~, ~x₂~ = ~C₁~, ~C₂~ constants, [[2-flow]] ~f(t;x₁=C₁,x₂=C₂)~
+characterizes a line through space as time passes. At every point on the line,
+[[2-flow] varies as time passes.
+
+
+***** N-Dimensional Flow
+
+A <<3-flow>> is a ternary function. At every point on a plane, [[3-flow]] varies with time.
+
+...
+
+An <<N-flow>> is an N-ary function. At any point in an (N-1)-dimensional
+hypercube, [[N-flow]] varies with time.
+
+A space has a fixed (but unbounded) number of dimensions. Each position in the
+continuum of space can be uniquely identified by a vector of N-1 real numbers.
+Time, on the other hand, is at most linear; it either remains constant or
+progresses monotonically in one direction or the other. Time is an index into
+a continuum of (N-1)-dimensional spaces.
+
+
+** Graphics
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** #lang graphics-engine
+
+**** Printing a Shader
+
+#+BEGIN_SRC racket
+#lang graphics-engine
+
+(define-shader vertex-shader
+  (#%version 330 core)
+  (layout ([location 0]) in vec4 vPosition)
+  (layout ([location 1]) in vec4 vColor)
+  (out vec4 color)
+  (uniform mat4 mvp)
+  (define (main) : void
+    (set! gl_Position (* mvp vPosition))
+    (set! color vColor)))
+
+(display (shader-string vertex-shader))
+(exit)
+#+END_SRC
+
+
+*** Voxels Are for More Than Just Mining
+
+**** Minecraft for Research
+
+A paper titled /[[https://arxiv.org/abs/1909.10475][String Diagrams for Assembly Planning]]/ popped into my twitter
+feed a couple weeks ago. It's interesting because the authors used a Minecraft
+mod as part of their evaluation. They turned LEGO schematics into plans for
+building things one piece at a time and then used Minecraft to watch the plans
+execute in real time.
+
+[[https://arxiv.org/abs/1909.10475][./img/legocad-to-minecraft.png]]
+
+There's more to it than that, but the Minecraft mod is what caught my
+attention.
+
+The paper also cites another paper, /[[https://www.aaai.org/ocs/index.php/FSS/FSS15/paper/viewPDFInterstitial/11725/11518][Minecraft as an experimental world for ai
+in robotics]]/. This one argues that using their Minecraft mod⁠ — /BurlapCraft/ ⁠—
+as a research platform reduces the cost of experimenting with artificial
+intelligence for robots in three ways:
+
+1. Working in voxel space simplifies the development of experiments.
+2. Domain-specific functionality is integrated into the environment.
+3. Minecraft is popular and it has a gradual learning curve.
+
+[[./img/minecraft-ai-find-gold-block.png]]
+
+I was at that symposium. It's where I started thinking about the potential of
+high-level voxel programming for applications that don't fit the block mining
+paradigm.
+
+**** Voxels Beyond Minecraft
+
+There's this great blog post, [[https://medium.com/@EightyLevel/how-voxels-became-the-next-big-thing-4eb9665cd13a][How Voxels Became ‘The Next Big Thing’]], that
+illustrates the power of using voxels as simple volumetric pixels instead of
+large, textured blocks. They make a compelling argument:
+
+#+BEGIN_QUOTE
+Voxel-based representation is essential for creating massive shared interactive virtual environments that will, at some point, resemble the real world.
+#+END_QUOTE
+
+The way they're using multiple levels of detail (LODs) is pretty awesome; it
+allows them to render each frame in time proportional to the number of pixels
+in the output.
+
+#+CAPTION: https://miro.medium.com/max/1024/0*neeMlGo6inNWXUoL.jpg
+[[./img/atomontage-lods.jpg]]
+
+For a fixed display resolution, the ratio of pixels to triangles diminishes
+rapidly as the complexity of the scene increases. The people at [[https://www.atomontage.com/][Atomontage]]
+have been exploiting this property to simulate complex textured surfaces as
+grids of solid-colored voxels with interesting physical properties.
+
+**** Where Are All the Voxel Programming Environments?
+
+Providing this kind of functionality as a Racket library would go a long way
+toward putting shared volumetric simulations into the hands of more
+programmers. A general-purpose voxel programming environment could support
+complex 3-D visualizations and simulations. It could offer scriptable cameras,
+a variety of regular grid structures, and the ability to operate at any
+effective scale. It could have a REPL for peeking and poking at things as they
+play out. Casual programmers should be able to simulate clouds with voxels
+rendered as tiny diffuse balls that move freely along an octahedral lattice
+and interact with each other as a fluid.
+
+Voxel programming environments also have potential as a medium for growing
+effectively scale-invariant shared simulations. On a dual-core laptop with
+integrated graphics, I might be able to simulate the nearest few chunks
+comfortably. A desktop with four cores, hyper-threading, and a $200 graphics
+card might handle dozens more chunks in general, with options for pushing into
+the hundreds of chunks by off-loading calculations to the GPU. On a LAN, the
+laptop could become a dumb terminal that off-loads the entire simulation to
+the desktop. For simulations larger than the local network, distant chunks
+could be deployed to the cloud or more esoteric high-performance computing
+architectures. Imagine what could be simulated on a fully loaded Cray XC30!
+
+Voxels have the potential to transform every trade, discipline, and industry
+they touch. The world is waiting for a general-purpose voxel programming
+environment and just doesn't know it yet.
+
+
+*** Voxel-Space Programming
+
+
+
+*** The OpenGL Math Library (GLM)
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** GLM for Racket is (going to be) F---in' Fast!
+
+Trawling through ~racket-users~, it's pretty clear that people take the
+"Performance Warning" atop the ~math/array~ docs to mean that Typed Racket is
+"the fast way" to do matrix arithmetic whereas untyped Racket is "the slow
+way."
+
+It turns out Typed Racket isn't the fastest game in town. Not even close.
+
+
+***** The Challenge
+
+Four-component vector aritmetic is the nuts and bolts of computer graphics.
+Recent experience suggests the most common operation is multiplication, so
+that's what I'm measuring here.
+
+(I might also do a "data science"-flavored variant: vector multiplication, one
+thousand 64-bit elements per vector)
+
+
+***** The Contenders
+
+- ~math/array~
+  - untyped
+  - typed->untyped
+  - fully typed
+- ~ffi/unsafe~ array
+  - dynamic dispatch
+  - static dispatch
+- ~vector~
+- ~flvector~
+  - standard operations
+  - unsafe operations
+
+
+***** The Experiment
+
+The benchmarking code for four-component vector multiplication is [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]].
+
+It constructs two vectors with four pseudo-random component values and then
+multiplies one by the other in a tight loop for 1 full second. On each turn,
+it substitutes the multiplicand with the previous result. When it completes,
+it prints the number of instructions per second rounded to the nearest whole
+number. This sequence is repeated for 8 distinct implementations.
+
+Usage:
+
+#+BEGIN_SRC bash
+  racket -l glm/benchmark
+#+END_SRC
+
+The ~-l~ flag tells ~racket~ to load ~glm/benchmark~ and then execute its
+~main~ submodule.
+
+I ran this 200 times on a desktop PC running Linux.
+
+#+BEGIN_SRC bash
+  for x in {1..200}
+  do
+      echo -n $x
+      racket -l glm/benchmark | tee -a results.csv
+  done
+#+END_SRC
+
+It finished in just under half an hour, as expected.
+
+
+***** The Data
+
+[[./img/glm-all-lines-log.svg]]
+
+[[./img/glm-all-lines-linear.svg]]
+
+[[./img/glm-low-lines.svg]]
+
+[[./img/glm-high-lines.svg]]
+
+[[./img/glm-all-bars-log.svg]]
+
+[[./img/glm-all-bars-linear.svg]]
+
+[[./img/glm-low-bars.svg]]
+
+[[./img/glm-high-bars.svg]]
+
+These bar charts are pretty striking. The first two show that the difference
+from fastest to slowest is so great, we're really talking about changes in
+order of magnitude.
+
+The final two charts split the data at 100K instructions/sec. I'll start at
+the low end.
+
+Using ~math/array~ in untyped Racket is the worst choice by a wide margin. The
+~math/array~ API is uncommonly rich, so this isn't exactly a surprise.
+Excepting personal shortcomings and periods of cognitive impairment, the only
+reason to take this route is the convenience of exploring in untyped Racket
+things you expect to re-implement in Typed Racket later because you need
+features unique to ~math/array~ or ~math/matrix~.
+
+For a baseline comparison, I moved only the vector arithmetic into a Typed
+Racket module. Prevailing wisdom tells us this is "the slow way" to do, well,
+anything with Typed Racket. I actually saw a 3x boost. Moving the entire
+benchmark into Typed Racket breaks the low end of the scale at 0.5M
+instructions/sec. The next best thing -- ~vector~ -- is twice as fast but
+still only clocks in at half the speed of ~flvector~, which comes out on top
+with a whopping 2.2M instructions/sec. That's 4x more throughput than
+fully-typed ~matrix/array~ and over 1600x more than untyped ~matrix/array~.
+Yikes.
+
+(aside: I'm not sure why the unsafe variant ran slower. I might be doing something wrong there, so I won't speak to that result yet.)
+
+The (soon to be) old implementation used ~ffi/unsafe~ arrays. By default, its
+arithmetic operations probe the types of their arguments to dispatch to a more
+specialized function at run time. With dynamic dispatch enabled, I saw 2x
+throughput over the perceived worst case and 15x over the actual worst case.
+Bypassing the dynamic dispatch mechanism by directly calling the specialized
+function doubles throughput once more.
+
+
+***** The Secret Sauce
+
+In Racket, flonums are the "unicode" of vector formats. Racket CS uses them
+internally and [[https://groups.google.com/d/topic/racket-users/Di-fTifWyWg/discussion][reducing precision hurts performance]]:
+
+#+BEGIN_QUOTE
+My guess is that no one uses them currently, because it's rare that you'd want
+to trade speed for *im*precision.
+#+END_QUOTE
+
+It stands to reason that the type closest to the internal representation
+offers the highest throughput.
+
+
+***** The Takeaway
+
+If you're looking for blazing fast CPU-based matrix math, take a look at
+~flvector~ or a library based on it. GLM for Racket (can soon say it) uses
+~flvector~ to deliver peak performance with the convenience of untyped Racket.
+
+
+**** Getting Started with GLM
+
+
+**** Making GLM Faster
+
+***** On the CPU
+
+How does TR do it?
+
+
+***** On the GPU
+
+GPGPU with OpenGL: https://www.seas.upenn.edu/~cis565/fbo.htm
+
+
+*** The OpenGL Shader Language (GLSL)
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Introducing GLSL for Racket
+
+
+**** Shader DSLs
+
+
+
+
+** Functional Racket
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Curry, Compose, Conjoin, Apply
+
+
+*** Multi-Valued Expressions
+
+
+*** Pattern Matching
+
+
+*** Custom Printing and Equality Checks
+
+
+
+
+** Racket Meta-Programming
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
+
+*** Pattern-based Macros
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Micro-DSLs - Seize the Means of Construction!
+
+Micro-DSLs are small programming languages specialized to the development of a
+particular application. Micro-DSLs are more specialized than DSLs which cover
+a whole application domain.
+
+***** What Is a Micro-DSL?
+
+A local macro
+ 
+#+BEGIN_SRC racket
+(define-syntax-rule (define-colors [name R G B] ...)
+  (define-values (name ...) (values (list R G B) ...)))
+
+(define-colors
+  ;;       R G B
+  [black   0 0 0]
+  [red     1 0 0]
+  [green   0 1 0]
+  [blue    0 0 1]
+  [cyan    0 1 1]
+  [magenta 1 0 1]
+  [yellow  1 1 0]
+  [white   1 1 1])
+#+END_SRC
+
+#+BEGIN_SRC racket
+> red
+'(1 0 0)
+> blue
+'(0 0 1)
+#+END_SRC
+
+A function and a macro
+
+#+BEGIN_SRC racket
+(define (info msg . args)
+  (when verbose? (displayln (format "info: ~a" (apply format msg args)))))
+
+(define config (new gl-config%))
+
+(define-syntax-rule (send-config/info name expr)
+  (let ([val expr]) (info "~a ~a" 'name val) (send config name val)))
+
+(send-config/info set-double-buffered #t)
+(send-config/info set-depth-size      24)
+(send-config/info set-stencil-size     0)
+(send-config/info set-multisample-size 0)
+#+END_SRC
+
+***** The Costs And Benefits of Meta-Programming
+
+Two kinds of macros:
+
+- code generation
+- code analysis
+
+****** Ex: Generating Procedures
+
+Original, no macros:
+
+#+BEGIN_SRC racket
+(define-values (set-center! set-position!)
+  (let ([proc (λ (f a b) (set! target (f a b)))])
+    (values (λ (width height) (^/ (^ width height) 2))
+            (λ (x y) (^ x y)))))
+#+END_SRC
+
+It works and its DRY, but it's harder to read than if we'd just typed
+everything out:
+
+#+BEGIN_SRC racket
+(define (set-center! width height) (set! center (^/ (^ width height) 2)))
+(define (set-position! x y) (set! position (^ x y)))
+#+END_SRC
+
+There's a cleaner way:
+
+#+BEGIN_SRC racket
+(define-syntax-rule (define-setters [name var a b val-expr] ...)
+  (begin (define (name a b) (set! var val-expr)) ...))
+
+(define-setters
+  ;; name        var      a     b      val-expr
+  [set-center!   center   width height (^/ (^ width height) 2)]
+  [set-position! position x     y      (^ x y)])
+#+END_SRC
+
+This is about as clean as the manual code without any duplication.
+
+
+**** Keyword Arguments for #langs
+
+#+BEGIN_SRC racket
+  (define-syntax-parser module-begin
+    [(_ (~optional (~seq #:interactive? interactive?:boolean)
+                   #:defaults ([interactive? #'#t]))
+        (~optional (~seq #:web-port                 web-port:expr))
+        (~optional (~seq #:web-socket-port   web-socket-port:expr))
+        (~optional (~seq #:server-root-path server-root-path:expr))
+        (~optional (~seq #:launch-browser?   launch-browser?:expr))
+        form ...)
+     #`(#%module-begin
+        (require js-voxel/web-server
+                 js-voxel/web-socket-server)
+        (#,@(if (syntax-e #'interactive?) #'(begin) #'(module+ main))
+         (define server (web-server (~? web-port 8000)
+                                    (~? launch-browser? #t)
+                                    (~? server-root-path (collection-path "voxel"))))
+         (current-web-socket
+          (web-socket-server (~? web-socket-port 8001)))
+         (sleep 0.1)
+         form ...
+         #,@(if (syntax-e #'interactive?)
+                null
+                (list #'(sync (current-web-socket))))))])
+#+END_SRC
+
+
+*** Procedural Macros
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Syntax Objects
+
+
+**** syntax-parse and Optional Patterns
+
+
+**** First-Order Macros
+     :PROPERTIES:
+     :VISIBILITY: children
+     :END:
+
+***** Transformer Bindings
+
+
+***** Syntax Transformers
+
+
+***** Compile-Time Structs
+
+
+
+
+**** Higher-Order Macros
+     :PROPERTIES:
+     :VISIBILITY: children
+     :END:
+
+***** Recursive Macros :: Inside #lang GLSL
+
+
+***** Macro Generation :: Just Another Kind of Term Rewriting
+
+
+***** Syntax Parameters
+
+
+***** Scopes and Module Boundaries
+
+
+
+
+*** Whole-Program Transformations
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** Module-Level Keywords
+
+
+**** Algebraic Data Types
+
+
+**** Exhaustivity Checks
+
+
+**** Totality Checks
+
+
+
+
+*** Language-Oriented Programming
+    :PROPERTIES:
+    :VISIBILITY: children
+    :END:
+
+**** A #lang Primer
+
+
+**** Simply-Typed Racket
+
+
+**** Recur, Eval, Co-Recur :: DSLs for Data Formats
+
+
+**** Like Bread and Butter :: #%module-begin and local-require
+
+
+**** Meta-Languages Make a Mean Module Mix-in
+
+***** The Idea
+
+Write a small ~#lang~ shim to augment or bootstrap into another ~#lang~.
+
+Ex:
+#+BEGIN_SRC racket
+  #lang glm/swizzle racket/base
+
+  (define v (vec 1 2 3))
+
+  v.yzzx.wxy
+#+END_SRC
+
+~glm/swizzle~ is a "meta-language." It enables the ~read-cdot~ parameter, so
+reading the identifier ~v.yzzx.wxy~ produces the s-expression ~(#%dot (#%dot v
+yzzx) wxy)~. It also injects ~(require glm glm/swizzle)~ into a sub-module
+containing the rest of this file with ~racket/base~ as its module-path.
+
+#+BEGIN_SRC racket
+(define-syntax-parser swizzle-dot
+  [(dot a:expr b:swizzle-id) #'(swizzle a b)]
+  [(dot a b:id)
+   (define a* (local-expand #'a 'expression null))
+   (if (identifier? a*)
+       (format-id #'dot "~a.~a" a* #'b)
+       (raise-syntax-error #f "invalid swizzle" this-syntax))])
+#+END_SRC
+
+
+***** The Technique
+
+To avoid scoping issues, inject the statement that imports the ~#%dot~ macro
+into the body of the module being read.
+
+#+BEGIN_SRC racket
+  (define (swizzle-read port)
+    (parameterize ([read-cdot #t])
+      `(module ,(gensym 'swizzle) ,(read port)
+         (require glm glm/swizzle)
+         ,@(port->list read port))))
+#+END_SRC
+
+Putting it all together:
+
+#+BEGIN_SRC racket
+;;; glm/swizzle.rkt
+
+#lang racket/base
+
+(require syntax/parse/define
+         (for-syntax racket/base))
+
+(provide (rename-out [swizzle-dot #%dot])
+
+(define-syntax-parser swizzle-dot
+  [(dot a:expr b:swizzle-id) #'(swizzle a b)]
+  [(dot a b:id)
+   (define a* (local-expand #'a 'expression null))
+   (if (identifier? a*)
+       (format-id #'dot "~a.~a" a* #'b)
+       (raise-syntax-error #f "invalid swizzle" this-syntax))])
+
+(module reader racket/base
+  (require racket/port)
+
+  (provide (rename-out
+            [swizzle-read read]
+            [swizzle-read-syntax read-syntax]))
+
+  (define (swizzle-read port)
+    (parameterize ([read-cdot #t])
+      `(module ,(gensym 'swizzle) ,(read port)
+         (require glm glm/swizzle)
+         ,@(port->list read port))))
+
+  (define (swizzle-read-syntax path port)
+    (datum->syntax #f (swizzle-read port))))
+#+END_SRC
+
+
+** SCD
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
