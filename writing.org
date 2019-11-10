@@ -333,9 +333,9 @@ It turns out Typed Racket isn't the fastest game in town. Not even close.
 
 ***** The Challenge
 
-Four-component vector operations are the nuts and bolts of computer graphics
-programming. Recent experience suggests the most common operation is
-multiplication, so that's what I'm measuring here.
+Four-component vector aritmetic is the nuts and bolts of computer graphics.
+Recent experience suggests the most common operation is multiplication, so
+that's what I'm measuring here.
 
 (I might also do a "data science"-flavored variant: vector multiplication, one
 thousand 64-bit elements per vector)
@@ -358,13 +358,34 @@ thousand 64-bit elements per vector)
 
 ***** The Experiment
 
-- 200 iterations of a fully-compiled four-component vector multiplier
-- 8 different vector implementations
-- 1 core
-- 1 thread
-- no mutation
+The benchmarking code for four-component vector multiplication is [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]].
 
-The benchmarking code is available [[https://github.com/dedbox/racket-glm/blob/2c3a90c3d76d3a2028b5680c8495789117e3047b/benchmark.rkt][here]].
+It constructs two vectors with four pseudo-random component values and then
+multiplies one by the other in a tight loop for 1 full second. On each turn,
+it substitutes the multiplicand with the previous result. When it completes,
+it prints the number of instructions per second rounded to the nearest whole
+number. This sequence is repeated for 8 distinct implementations.
+
+Usage:
+
+#+BEGIN_SRC bash
+  racket -l glm/benchmark
+#+END_SRC
+
+The ~-l~ flag tells ~racket~ to load ~glm/benchmark~ and then execute its
+~main~ submodule.
+
+I ran this 200 times on a desktop PC running Linux.
+
+#+BEGIN_SRC bash
+  for x in {1..200}
+  do
+      echo -n $x
+      racket -l glm/benchmark | tee -a results.csv
+  done
+#+END_SRC
+
+It finished in just under half an hour, as expected.
 
 
 ***** The Data
