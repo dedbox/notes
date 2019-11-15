@@ -1,3 +1,6 @@
 * Blog
+  :PROPERTIES:
+  :VISIBILITY: children
+  :END:
 
-2019-11-10 [[./blog/racket-vector-arithmetic-benchmarks.org]]
+2019-11-15 [[./blog/the-state-of-fast-vector-math-in-racket.org][The State of Fast Vector Math in Racket]]
