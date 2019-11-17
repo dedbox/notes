@@ -1,1 +1,32 @@
-Hello, world!
+I'm working on a [[https://github.com/dedbox/racket-glm][Racket port]] of [[https://glm.g-truc.net/0.9.9/index.html][GLM]], a linear algebra library for real-time
+computer graphics software. The original C++ library is extremely fast. To see
+how a Racket port would add up, I compiled a list of various ways to do vector
+arithmetic in [[https://racket-lang.org/][Racket]] and then benchmarked them.
+
+If you need to do performance-critical math in Racket, the results should be
+useful and maybe a little surprising.
+
+* The List
+
+I found 8 distinct types of floating-point vector multiplication:
+
+| module            | type     | operation  |
+|-------------------+----------+------------|
+| math/array        | array    | array*     |
+| ffi/unsafe        | array    | array*     |
+| racket/base       | vector   | *          |
+| racket/flonum     | vector   | fl*        |
+| racket/unsafe/ops | vector   | unsafe-fl* |
+| racket/base       | flvector | *          |
+| racket/flonum     | flvector | fl*        |
+| racket/unsafe/ops | flvector | unsafe-fl* |
+
+For each operation, I ran 5 different configurations:
+
+- untyped
+- from typed to untyped
+- fully typed
+- from typed + typed/racket/unsafe to untyped
+- fully typed + typed/racket/unsafe
+
+for a total of 8×5=40 distinct cases.
