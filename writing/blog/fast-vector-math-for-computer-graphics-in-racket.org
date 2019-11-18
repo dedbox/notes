@@ -1,0 +1,42 @@
+I'm working on a [[https://github.com/dedbox/racket-glm][Racket port]] of [[https://glm.g-truc.net/0.9.9/index.html][GLM]], a linear algebra library for real-time
+computer graphics software. The original C++ library is extremely fast. To see
+how a Racket port would add up, I compiled a list of various ways to do vector
+arithmetic in [[https://racket-lang.org/][Racket]] and then benchmarked them.
+
+If you need to do performance-critical math in Racket, the results should be
+useful and may be a little surprising.
+
+* The List
+
+8 vector types:
+
+- ffi/unsafe array
+- math/array array
+- math/flonum flvector
+- racket/base list
+- racket/base vector
+- racket/base flvector
+- racket/flonum flvector
+- racket/unsafe/ops vector
+
+3 common operations:
+
+- *
+- fl*
+- unsafe-fl*
+
+2 special operations:
+
+- math/array array*
+- ffi/unsafe array*
+
+5 configurations:
+
+- untyped
+- semi-typed
+- fully-typed
+- unsafe semi-typed
+- unsafe fully-typed
+
+That's (8×3+2)×5=130 cases per run.
+ 
