@@ -4,6 +4,8 @@
 :VISIBILITY: all
 :END:
 
+2019-11-18 Blog: [[file:reading/demystifying-floating-point-precision.org][Demystifying Floating Point Precision]]
+
 * Writing
 :PROPERTIES:
 :VISIBILITY: all

@@ -1,0 +1,67 @@
+
+|-----------+-----------------------------------|
+| blog      | [[https://blog.demofox.org/2017/11/21/floating-point-precision/][The blog at the bottom of the sea]] |
+| published | 2017-11-21                        |
+| audience  | game programmers                  |
+| words     | 1687 (excl. table, appendix)      |
+|-----------+-----------------------------------|
+
+#+BEGIN_QUOTE
+
+  What precision do I have at a number?
+
+  When will I hit precision issues?
+
+#+END_QUOTE
+
+* Floating Point Format
+:PROPERTIES:
+:VISIBILITY: all
+:END:
+
+An IEEE 754 floating point number has 3 parts:
+
+- sign
+- exponent
+- mantissa
+
+Sign is always 1 bit.
+
+#+BEGIN_QUOTE
+
+  The /exponent/ bits tell you which power of two numbers you are between
+  
+    [2^exponent, 2^{exponent+1})
+
+  and the /mantissa/ tells you where you are in that range.
+
+#+END_QUOTE
+
+Additionally, all 1's in the exponent represents ∞. All 0's means ???
+
+* What precision do I have at a number?
+:PROPERTIES:
+:VISIBILITY: all
+:END:
+
+#+LaTeX_HEADER: \DeclareMathOperator{\resolution}{resolution}
+
+The /resolution/ of a floating point number is the smallest amount that can be
+added or subtracted from it.
+
+Let $f$ be a floating point number with sign $s$, exponent $e$, and mantissa
+$m$, and denote by $\resolution(f)$ its resolution.
+
+  \[ \resolution(f) = \frac{2^{e+1} - 2^e}{2^m} = 2^{e-m} \]
+
+Numbers close to 1 have finer (i.e., lower) resolution than other numbers.
+
+  \[ \resolution(f) \propto \frac{m}{e} \]
+
+Fix $b$ the number of bits in $f$. Then $m = b - e - 1$ and
+
+  \[ \frac{m}{e} = \frac{b-e-1}{e} = \frac{1+b-e-2}{e} = \frac{1}{e} + c \]
+
+where $c=\frac{b-e-2}{e}$ a constant. Thus,
+
+  \[ \resolution(f) \propto \frac{1}{e} \]
