@@ -3,4 +3,4 @@
   :VISIBILITY: children
   :END:
 
-2019-11-15 [[./blog/the-state-of-fast-vector-math-in-racket.org][The State of Fast Vector Math in Racket]]
+2019-11-15 [[./blog/%20fast-vector-math-for-computer-graphics-in-racket.org][Fast Vector Math for Computer Graphics in Racket]]

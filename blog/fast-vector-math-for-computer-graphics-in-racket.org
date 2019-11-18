@@ -10,16 +10,16 @@ useful and maybe a little surprising.
 
 I found 8 distinct types of floating-point vector multiplication:
 
-| module            | type     | operation  |
-|-------------------+----------+------------|
-| math/array        | array    | array*     |
-| ffi/unsafe        | array    | array*     |
-| racket/base       | vector   | *          |
-| racket/flonum     | vector   | fl*        |
-| racket/unsafe/ops | vector   | unsafe-fl* |
-| racket/base       | flvector | *          |
-| racket/flonum     | flvector | fl*        |
-| racket/unsafe/ops | flvector | unsafe-fl* |
+| module                     | type       |
+|----------------------------+------------|
+| math/array array           | array*     |
+| ffi/unsafe array           | array*     |
+| racket/base vector         | *          |
+| racket/flonum vector       | fl*        |
+| racket/unsafe/ops vector   | unsafe-fl* |
+| racket/base flvector       | *          |
+| racket/flonum flvector     | fl*        |
+| racket/unsafe/ops flvector | unsafe-fl* |
 
 For each operation, I ran 5 different configurations:
 
@@ -30,3 +30,4 @@ For each operation, I ran 5 different configurations:
 - fully typed + typed/racket/unsafe
 
 for a total of 8×5=40 distinct cases.
+ 
