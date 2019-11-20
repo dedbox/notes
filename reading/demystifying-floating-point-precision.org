@@ -14,6 +14,7 @@
 
 #+END_QUOTE
 
+
 * Floating Point Format
 :PROPERTIES:
 :VISIBILITY: all
@@ -25,43 +26,159 @@ An IEEE 754 floating point number has 3 parts:
 - exponent
 - mantissa
 
-Sign is always 1 bit.
+Sign is always 1 bit: 1 = negative, 0 = positive. Remember: $(-1)^{sign}^{}^{}$.
 
 #+BEGIN_QUOTE
 
-  The /exponent/ bits tell you which power of two numbers you are between
+  The exponent bits tell you which power of two numbers you are between
   
-    [2^exponent, 2^{exponent+1})
+    [2^{exponent}, 2^{exponent+1})
 
-  and the /mantissa/ tells you where you are in that range.
+  and the mantissa tells you where you are in that range.
 
 #+END_QUOTE
 
-Additionally, all 1's in the exponent represents ∞. All 0's means ???
+So the /exponent/ sets the order of magnitude. Additionally, ∞ is encoded as
+all 1's in the exponent and [[https://en.wikipedia.org/wiki/Denormal_number][subnormal numbers]] as all 0's.
 
-* What precision do I have at a number?
+The mantissa, or [[https://en.wikipedia.org/wiki/Significand][significand]], of a floating point number encodes its digits
+without any leading zeros.
+
+** What precision do I have at a number?
+
+Let $x$ be an [[https://en.wikipedia.org/wiki/IEEE_754][IEEE 754]] floating point number with sign $x_s$, exponent $x_e$, and
+mantissa $x_m$; and denote by $e$ and $m$ the number of bits in the concrete
+representations of $x_e$ and $x_m$, respectively.
+
+Let $b$ be the number of bits in the concrete representation of $x$.
+
+  \[ b = e + m + 1 \]
+
+The /precision/ ($p$) of $x$ is the magnitude of the unit in the last
+place ([[https://en.wikipedia.org/wiki/Unit_in_the_last_place][ULP]]) of $m$, or the smallest amount that can be added or subtracted
+within the order of magnitude set by $e$.
+
+  \[ p = \frac{2^{e+1} - 2^e}{2^m} = \frac{2^e}{2^m} = 2^{e-m}^{} \]
+
+  \[ 2^e \gg 2^m \implies p \propto 2^e \]
+
+In English:
+
+  The precision of a floating point number is directly proportional to the
+  range of its exponent.
+
+In plain English:
+
+  Smaller numbers are more precise than larger numbers.
+
+*** Example
+
+#+BEGIN_QUOTE
+
+A half float has a maximum exponent of 15, which you can see above puts the
+number range between 32768 and 65536. The precision is 32 which is the
+smallest step that can be made in a half float at that scale. That range
+includes the smaller number but not the larger number. That means that the
+largest number a half float can store is one step away (32) from the high side
+of that range. So, the largest number that can be stored is 65536 – 32
+= 65504.
+
+#+END_QUOTE
+
+For a half-precision floating point number,
+
+  \[ $e = 15 \implies x \in [32768,65536) \implies $x_{max} = 65536 - p = 65536 - 32 = 65504 \]
+
+** How Many Digits Can I Rely On?
+
+Look at the order of magnitude of $m$.
+
+  \[ \log_{10}(2^m) = m\log_{10}(2) \approx 0.3m \]
+
+*** Example
+
+For a single-precision floating point number,
+
+  \[ m = 23 \implies \log_{10}(2^m) = \log_{10}(2^{23}) = 23\log_{10}(2) \approx 23\cdot{}0.3 = 6.9 \]
+
+With a 23-bit mantissa, the first 6 or 7 figures of $x$ are significant \mdash
+at least 6 significant figures for any number, and as many as 7 for most.
+
+By similar calculations, half-precision floating point numbers have 3
+significant figures, while double-precision floats have at least 15 for any
+number and as many as 16 for half of them.
+
+* When will I hit precision issues?
 :PROPERTIES:
 :VISIBILITY: all
 :END:
 
-#+LaTeX_HEADER: \DeclareMathOperator{\resolution}{resolution}
+#+LaTeX_HEADER: \newcommand\Ceil{\mathrm{ceil}}
 
-The /resolution/ of a floating point number is the smallest amount that can be
-added or subtracted from it.
+The /range/ ($r$) of a floating point number is the size of the interval set
+by its exponent.
 
-Let $f$ be a floating point number with sign $s$, exponent $e$, and mantissa
-$m$, and denote by $\resolution(f)$ its resolution.
+  \[ r = 2^{e+1} - 2^e = 2^{e+1-1} = 2^e \]
 
-  \[ \resolution(f) = \frac{2^{e+1} - 2^e}{2^m} = 2^{e-m} \]
+  \[ p = \frac{2^e}{2^m} = \frac{r}{2^m} \implies r = 2^{m}p \]
 
-Numbers close to 1 have finer (i.e., lower) resolution than other numbers.
+When $m$ is fixed, $r$ is a linear function of $p$. Given a desired /minimum
+effective precision/ $p_{min}$,
 
-  \[ \resolution(f) \propto \frac{m}{e} \]
+  \[ r_{break} = 2^{m}p_{min} \]
 
-Fix $b$ the number of bits in $f$. Then $m = b - e - 1$ and
+  \[ e_{break} = \Ceil(\log_2 r_{break}) = \Ceil(\log_2 2^{m}p_{min}) = \Ceil(m + \log_2 p_{min}) \]
 
-  \[ \frac{m}{e} = \frac{b-e-1}{e} = \frac{1+b-e-2}{e} = \frac{1}{e} + c \]
+  \[ x_{break} = 2^{e_{break}} = 2^{\Ceil(m + \log_2 p_{min})} \]
 
-where $c=\frac{b-e-2}{e}$ a constant. Thus,
+Another way to derive this formula is to find the point at which $p$ exceeds
+$p_{min}$.
 
-  \[ \resolution(f) \propto \frac{1}{e} \]
+  \[ p > p_{min} \implies 2^{e-m} > p_{min} \implies r > 2^{m}p_{min} \]
+
+  \[ e \ge \Ceil(m + log_2 p_{min}) \]
+
+  \[ x \ge 2^{\Ceil(m + log_2 p_{min})} \]
+
+As the range of a floating point number increases, so does its minimum
+effective precision. Incrementing or decrementing a floating point number by
+less than its minimum effective precision either amplifies rounding error or
+has no effect, depending on whether the result is rounded up or down.
+
+  \[ x > x_{break} = \begin{cases}
+       x + p & \frac{p}{2} \le p_{min} < p \\
+       x     &  p_{min} < \frac{p}{2}
+     \end{cases} \] 
+
+  \[ p_{min} < \frac{p}{2} \implies p > 2 p_{min} \]
+
+Let $p_{stop} = 2 p_{min}$.
+
+  \[ e_{stop} = \Ceil(m + log_2 p_{stop}) \]
+
+  \[ x_{stop} = 2^{\Ceil(m + log_2 p_{stop})} \]
+
+*** Example
+
+For a video game with a hard 30-FPS limit,
+
+  \[ p_{min} = \frac{1}{30} \approx 0.0333 \]
+
+and $x$ a single-precision floating point number,
+
+  \[ x_{break} = 2^{\Ceil(m + log_2 p_{min})} \approx 2^{\Ceil(23 + log_2 0.0333)} = 524288 \]
+
+If the clock starts at 0, time in the game will start to accelerate after
+524,288 seconds -- about 6 days -- when $x \ge x_{min}$ due to rounding error. 
+
+  \[ p_{stop} = 2 p_{min} = 0.0666 \]
+
+  \[ x_{stop} = 2^{\Ceil(m + log_2 p_{stop})} = 2^{\Ceil(23 + log_2 0.0666)} = 1048576 \]
+
+After 1,048,576 "seconds", or about 12 days if we ignore the explosion in
+rounding error for $x \ge x_{break}$, time will stop when $x = x_{stop}$.
+
+* Storing Integers
+
+Any integer in the interval $[-2^{m+1},2^{m+1}]$ can be represented exactly as
+a whole-number fragment of some power of 2.
