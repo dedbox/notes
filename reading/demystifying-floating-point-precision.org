@@ -26,7 +26,7 @@ An IEEE 754 floating point number has 3 parts:
 - exponent
 - mantissa
 
-Sign is always 1 bit: 1 = negative, 0 = positive. Remember: $(-1)^{sign}^{}^{}$.
+Sign is always 1 bit: 1 = negative, 0 = positive. Remember: (-1)^{sign}.
 
 #+BEGIN_QUOTE
 
@@ -46,30 +46,46 @@ without any leading zeros.
 
 ** What precision do I have at a number?
 
-Let $x$ be an [[https://en.wikipedia.org/wiki/IEEE_754][IEEE 754]] floating point number with sign $x_s$, exponent $x_e$, and
-mantissa $x_m$; and denote by $e$ and $m$ the number of bits in the concrete
-representations of $x_e$ and $x_m$, respectively.
+Let $x$ be an [[https://en.wikipedia.org/wiki/IEEE_754][IEEE 754]] floating point number with sign $x_s$, exponent $x_e$,
+and mantissa $x_m$; and denote by $e$ and $m$ the number of bits in the
+concrete representations of $x_e$ and $x_m$, respectively.
 
 Let $b$ be the number of bits in the concrete representation of $x$.
 
-  \[ b = e + m + 1 \]
+#+BEGIN_CENTER
+
+\[ b = e + m + 1 \]
+
+#+END_CENTER
 
 The /precision/ ($p$) of $x$ is the magnitude of the unit in the last
 place ([[https://en.wikipedia.org/wiki/Unit_in_the_last_place][ULP]]) of $m$, or the smallest amount that can be added or subtracted
 within the order of magnitude set by $e$.
 
-  \[ p = \frac{2^{e+1} - 2^e}{2^m} = \frac{2^e}{2^m} = 2^{e-m}^{} \]
+#+BEGIN_CENTER
 
-  \[ 2^e \gg 2^m \implies p \propto 2^e \]
+\[ p = \frac{2^{e+1} - 2^{e}}{2^{m}} = \frac{2^{e}}{2^{m}} = 2^{e-m} \]
+
+\[ 2^{e} \gg 2^{m} \implies p \propto 2^{e} \]
+
+#+END_CENTER
 
 In English:
 
-  The precision of a floating point number is directly proportional to the
-  range of its exponent.
+#+BEGIN_CENTER
+
+/The precision of a floating point number is directly proportional to the
+range of its exponent./
+
+#+END_CENTER
 
 In plain English:
 
-  Smaller numbers are more precise than larger numbers.
+#+BEGIN_CENTER
+
+/Smaller numbers are more precise than larger numbers./
+
+#+END_CENTER
 
 *** Example
 
@@ -87,19 +103,23 @@ of that range. So, the largest number that can be stored is 65536 – 32
 
 For a half-precision floating point number,
 
-  \[ $e = 15 \implies x \in [32768,65536) \implies $x_{max} = 65536 - p = 65536 - 32 = 65504 \]
+#+BEGIN_CENTER
+
+\[ $e = 15 \implies x \in [32768,65536) \implies $x_{max} = 65536 - p = 65536 - 32 = 65504 \]
+
+#+END_CENTER
 
 ** How Many Digits Can I Rely On?
 
 Look at the order of magnitude of $m$.
 
-  \[ \log_{10}(2^m) = m\log_{10}(2) \approx 0.3m \]
+  \[ \log_{10}(2^{m}) = m\log_{10}(2) \approx 0.3m \]
 
 *** Example
 
 For a single-precision floating point number,
 
-  \[ m = 23 \implies \log_{10}(2^m) = \log_{10}(2^{23}) = 23\log_{10}(2) \approx 23\cdot{}0.3 = 6.9 \]
+  \[ m = 23 \implies \log_{10}(2^{m}) = \log_{10}(2^{23}) = 23\log_{10}(2) \approx 23\cdot{}0.3 = 6.9 \]
 
 With a 23-bit mantissa, the first 6 or 7 figures of $x$ are significant \mdash
 at least 6 significant figures for any number, and as many as 7 for most.
@@ -118,7 +138,7 @@ number and as many as 16 for half of them.
 The /range/ ($r$) of a floating point number is the size of the interval set
 by its exponent.
 
-  \[ r = 2^{e+1} - 2^e = 2^{e+1-1} = 2^e \]
+  \[ r = 2^{e+1} - 2^{e} = 2^{e+1-1} = 2^{e} \]
 
   \[ p = \frac{2^e}{2^m} = \frac{r}{2^m} \implies r = 2^{m}p \]
 
@@ -127,18 +147,18 @@ effective precision/ $p_{min}$,
 
   \[ r_{break} = 2^{m}p_{min} \]
 
-  \[ e_{break} = \Ceil(\log_2 r_{break}) = \Ceil(\log_2 2^{m}p_{min}) = \Ceil(m + \log_2 p_{min}) \]
+  \[ e_{break} = \Ceil(\log_{2} r_{break}) = \Ceil(\log_{2} 2^{m}p_{min}) = \Ceil(m + \log_{2} p_{min}) \]
 
-  \[ x_{break} = 2^{e_{break}} = 2^{\Ceil(m + \log_2 p_{min})} \]
+  \[ x_{break} = 2^{e_{break}} = 2^{\Ceil(m + \log_{2} p_{min})} \]
 
 Another way to derive this formula is to find the point at which $p$ exceeds
 $p_{min}$.
 
   \[ p > p_{min} \implies 2^{e-m} > p_{min} \implies r > 2^{m}p_{min} \]
 
-  \[ e \ge \Ceil(m + log_2 p_{min}) \]
+  \[ e \ge \Ceil(m + log_{2} p_{min}) \]
 
-  \[ x \ge 2^{\Ceil(m + log_2 p_{min})} \]
+  \[ x \ge 2^{\Ceil(m + log_{2} p_{min})} \]
 
 As the range of a floating point number increases, so does its minimum
 effective precision. Incrementing or decrementing a floating point number by
@@ -154,26 +174,38 @@ has no effect, depending on whether the result is rounded up or down.
 
 Let $p_{stop} = 2 p_{min}$.
 
-  \[ e_{stop} = \Ceil(m + log_2 p_{stop}) \]
+  \[ e_{stop} = \Ceil(m + log_{2} p_{stop}) \]
 
-  \[ x_{stop} = 2^{\Ceil(m + log_2 p_{stop})} \]
+  \[ x_{stop} = 2^{\Ceil(m + log_{2} p_{stop})} \]
 
 *** Example
 
 For a video game with a hard 30-FPS limit,
 
-  \[ p_{min} = \frac{1}{30} \approx 0.0333 \]
+#+BEGIN_CENTER
+
+\[ p_{min} = \frac{1}{30} \approx 0.0333 \]
+
+#+END_CENTER
 
 and $x$ a single-precision floating point number,
 
-  \[ x_{break} = 2^{\Ceil(m + log_2 p_{min})} \approx 2^{\Ceil(23 + log_2 0.0333)} = 524288 \]
+#+BEGIN_CENTER
+
+\[ x_{break} = 2^{\Ceil(m + log_{2} p_{min})} \approx 2^{\Ceil(23 + log_{2} 0.0333)} = 524288 \]
+
+#+END_CENTER
 
 If the clock starts at 0, time in the game will start to accelerate after
-524,288 seconds -- about 6 days -- when $x \ge x_{min}$ due to rounding error. 
+524,288 seconds -- about 6 days -- when $x \ge x_{min}$ due to rounding error.
 
-  \[ p_{stop} = 2 p_{min} = 0.0666 \]
+#+BEGIN_CENTER
 
-  \[ x_{stop} = 2^{\Ceil(m + log_2 p_{stop})} = 2^{\Ceil(23 + log_2 0.0666)} = 1048576 \]
+\[ p_{stop} = 2 p_{min} = 0.0666 \]
+
+\[ x_{stop} = 2^{\Ceil(m + log_{2} p_{stop})} = 2^{\Ceil(23 + log_{2} 0.0666)} = 1048576 \]
+
+#+END_CENTER
 
 After 1,048,576 "seconds", or about 12 days if we ignore the explosion in
 rounding error for $x \ge x_{break}$, time will stop when $x = x_{stop}$.
