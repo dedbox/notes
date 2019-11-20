@@ -1,3 +1,4 @@
+#+STARTUP: latexpreview
 
 |-----------+-----------------------------------|
 | blog      | [[https://blog.demofox.org/2017/11/21/floating-point-precision/][The blog at the bottom of the sea]] |
@@ -54,9 +55,9 @@ Let $b$ be the number of bits in the concrete representation of $x$.
 
 \[ b = e + m + 1 \]
 
-The /precision/ ($p$) of $x$ is the magnitude of the unit in the last
-place ([[https://en.wikipedia.org/wiki/Unit_in_the_last_place][ULP]]) of $m$, or the smallest amount that can be added or subtracted
-within the order of magnitude set by $e$.
+The /precision/ ($p$) of $x$ is the magnitude of the unit in the last place
+([[https://en.wikipedia.org/wiki/Unit_in_the_last_place][ULP]]) of $m$, or the smallest amount that can be added or subtracted within
+the order of magnitude set by $e$.
 
 \[ p = \frac{2^{e+1} - 2^{e}}{2^{m}} = \frac{2^{e}}{2^{m}} = 2^{e-m} \]
 
@@ -87,13 +88,13 @@ of that range. So, the largest number that can be stored is 65536 – 32
 
 For a half-precision floating point number,
 
-\[ $e = 15 \implies x \in [32768,65536) \implies $x_{max} = 65536 - p = 65536 - 32 = 65504 \]
+\[ e = 15 \implies x \in [32768,65536) \implies x_{max} = 65536 - p = 65536 - 32 = 65504 \]
 
 ** How Many Digits Can I Rely On?
 
 Look at the order of magnitude of $m$.
 
-\[ \log_{10}(2^{m}) = m\log_{10}(2) \approx 0.3m \]
+\[ \log_{10}(2^{m}) = m \log_{10}(2) \approx 0.3m \]
 
 *** Example
 
@@ -120,7 +121,7 @@ by its exponent.
 
 \[ r = 2^{e+1} - 2^{e} = 2^{e+1-1} = 2^{e} \]
 
-\[ p = \frac{2^e}{2^m} = \frac{r}{2^m} \implies r = 2^{m}p \]
+\[ p = \frac{2^{e}}{2^{m}} = \frac{r}{2^{m}} \implies r = 2^{m}p \]
 
 When $m$ is fixed, $r$ is a linear function of $p$. Given a desired /minimum
 effective precision/ $p_{min}$,
@@ -146,9 +147,9 @@ less than its minimum effective precision either amplifies rounding error or
 has no effect, depending on whether the result is rounded up or down.
 
 \[ x > x_{break} = \begin{cases}
-     x + p & \frac{p}{2} \le p_{min} < p \\
-     x     &  p_{min} < \frac{p}{2}
-   \end{cases} \] 
+                     x + p & \frac{p}{2} \le p_{min} < p \\
+                     x     &  p_{min} < \frac{p}{2}
+                   \end{cases} \] 
 
 \[ p_{min} < \frac{p}{2} \implies p > 2 p_{min} \]
 
