@@ -1,0 +1,23 @@
+A few ideas based on Amazon book search results:
+
+- Meta-Programming Racket
+- Learning Racket Functional Meta-Programming
+  - Functional programming idioms for Racket macros
+- Effective Racket Macros
+  - 48 Specific Ways to Write Better Racket
+- Racket Program Synthesis and Transformation
+- Hands-On Functional Meta-Programming in Racket
+  - Write simpler macros with functional programming
+- Racket Meta-Programming Cookbook
+  - Over 70 recipes to solve challenges in automatic software construction
+    with Racket
+- Racket Macro Cookbook
+  - Recipes for functional programming with macros
+- Macro Programming with Racket Cookbook
+- Macro Design Patterns
+  - A Hands-On Experience with Real-World Examples
+- Hands-On Design Patterns with Racket Macros
+  - Solve common meta-programing problems with modern design patterns and
+    build robust macros
+- Racket Meta-Programming Design Patterns
+  - Powerful techniques for smarter, safer macros

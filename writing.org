@@ -3,4 +3,5 @@
   :VISIBILITY: children
   :END:
 
+2019-11-21 [[file:writing/blog/ideas-for-racket-meta-programming-book-names.org][Ideas for Racket Meta-Programming Book Names]]
 2019-11-15 [[./blog/fast-vector-math-for-computer-graphics-in-racket.org][Fast Vector Math for Computer Graphics in Racket]]
