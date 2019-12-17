@@ -12,3 +12,10 @@
 :END:
 
 2019-11-15 Blog: [[./writing/blog/fast-vector-math-for-computer-graphics-in-racket.org][Fast Vector Math for Computer Graphics in Racket]]
+
+* Watching
+:PROPERTIES:
+:VISIBILITY: all
+:END:
+
+2019-12-17 Talk: [[file:watching/agency-plus-automation.org][Agency + Automation: Designing Artificial Intelligence into Interactive Systems]], by Jeff Heer. NeurIPS 2019.

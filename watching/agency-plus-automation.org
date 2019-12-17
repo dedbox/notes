@@ -1,0 +1,36 @@
+[[https://slideslive.com/38921798/agency-automation-designing-artificial-intelligence-into-interactive-systems][Agency + Automation: Designing Artificial Intelligence into Interactive
+Systems]], by Jeff Heer
+
+ML-infused interactive systems
+
+A virtuous cycle:
+
+#+BEGIN_QUOTE
+  exploring different approaches to this design goal of determining regions of
+  optimality in dividing labor between machine learning systems and direct
+  human input"
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+Future challenges: First of all, ... figuring out how we get the correct
+tooling in place to enable productive prototyping and much more rapid design
+and deployment of these types of applications, I think is necessary to
+accelerate our exploration of this space and so, in the process, learn what is
+most effective, and this includes, I think, really rethinking the idea of user
+interface toolkits into something where machine learning techniques are first
+class citizens.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+having a little bit of domain knowledge, ... with the right interaction
+techniques, can still allow you to fairly quickly dial into views that will
+allow you to improve your confidence in the data
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+I didn't set out to explore interactions between machine learning and user
+interfaces. I was trying to solve a domain problem I thought was really
+important and ... to do it well, with the right level of user effort, actually
+required machine learning techniques to aid in the disambiguation of people's
+input.
+#+END_QUOTE
