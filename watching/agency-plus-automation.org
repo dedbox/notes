@@ -6,9 +6,9 @@ ML-infused interactive systems
 A virtuous cycle:
 
 #+BEGIN_QUOTE
-  exploring different approaches to this design goal of determining regions of
-  optimality in dividing labor between machine learning systems and direct
-  human input"
+exploring different approaches to this design goal of determining regions of
+optimality in dividing labor between machine learning systems and direct human
+input
 #+END_QUOTE
 
 #+BEGIN_QUOTE
