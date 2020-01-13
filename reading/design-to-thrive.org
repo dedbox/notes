@@ -1,0 +1,94 @@
+
+[[https://dl.acm.org/citation.cfm?id=1841456][Howard, Tharon. /Design to Thrive: Creating social networks and online communities that last./ Morgan Kaufmann, 2009.]]
+
+*** Scope
+    :PROPERTIES:
+    :VISIBILITY: all
+    :END:
+
+Five type of online groups people have paid the author to create:
+
+- Internal project and professional development teams
+  - promote collaboration
+  - improve quality of products and services
+- Communities of practice
+  - professionals help each other
+  - promote best practices and latest techniques
+- Cross-disciplinary social networks
+  - share information at scale
+  - get support from colleagues
+  - retain talent
+- Brand communities and user group communities
+  - build consumer loyalty
+  - promote word-of-mouth advertising and community support
+  - reduce support costs
+- Gaming communities
+  - participate or fail
+  - failure is cheap -- restart and try again
+  - learn how to design and participate in successful communities
+
+
+*** RIBS
+    :PROPERTIES:
+    :VISIBILITY: all
+    :END:
+
+The four elements necessary for long-term success:
+
+- *R* emuneration
+- *I* nfluence
+- *B* elonging
+- *S* ignificance
+
+**** Remuneration
+
+#+BEGIN_QUOTE
+[P]eople need to believe that they will obtain some positive return on the
+investment of their time and energy in order to be attracted to participation
+in a community. Individuals will not become members of a social network unless
+there is a clear benefit for doing so.
+#+END_QUOTE
+
+**** Influence
+
+#+BEGIN_QUOTE
+Essentially, influence means giving the members of the community a clear sense
+that they have a voice in the community and control over how their voice will
+be heard.
+#+END_QUOTE
+
+**** Belonging
+
+#+BEGIN_QUOTE
+Successful communities have secret handshakes, special languages, icons,
+colors, and symbols that (1) help members identify each other and (2)
+cultivate that strong emotional attachment to others in the community, that
+strong feeling of belonging.
+#+END_QUOTE
+
+**** Significance
+
+#+BEGIN_QUOTE
+[I]n order for a community to be successful it has to be seen as significant.
+It has to be respected.
+#+END_QUOTE
+
+
+*** Social Networks vs. Online Communities
+    :PROPERTIES:
+    :VISIBILITY: all
+    :END:
+
+**** Social Networks
+
+- Each user is the center of their own universe.
+- May contain multiple overlapping groups.
+- Secondary connections are weaker.
+- Primary contact is harder.
+
+**** Online Communities
+
+- Relationships are "richer, more complex, and more predictable."
+- Comprises a single group.
+- Secondary connections are stronger.
+- Primary contact is easier.
