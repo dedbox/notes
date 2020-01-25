@@ -4,20 +4,20 @@
 :VISIBILITY: all
 :END:
 
-2020-01-24 Blog: [[file:reading/bindings-as-sets-of-scopes.org][Bindings as Sets of Scopes]]
-2020-01-12 Book: [[file:reading/design-to-thrive.org][Design to Thrive: Creating Social Networks and Online Communities that Last]], by Tharon W. Howard.
-2019-11-18 Blog: [[file:reading/demystifying-floating-point-precision.org][Demystifying Floating Point Precision]]
+- 2020-01-24 Blog: [[file:reading/bindings-as-sets-of-scopes.org][Bindings as Sets of Scopes]]
+- 2020-01-12 Book: [[file:reading/design-to-thrive.org][Design to Thrive: Creating Social Networks and Online Communities that Last]], by Tharon W. Howard.
+- 2019-11-18 Blog: [[file:reading/demystifying-floating-point-precision.org][Demystifying Floating Point Precision]]
 
 * Writing
 :PROPERTIES:
 :VISIBILITY: all
 :END:
 
-2019-11-15 Blog: [[./writing/blog/fast-vector-math-for-computer-graphics-in-racket.org][Fast Vector Math for Computer Graphics in Racket]]
+- 2019-11-15 Blog: [[./writing/blog/fast-vector-math-for-computer-graphics-in-racket.org][Fast Vector Math for Computer Graphics in Racket]]
 
 * Watching
 :PROPERTIES:
 :VISIBILITY: all
 :END:
 
-2019-12-17 Talk: [[file:watching/agency-plus-automation.org][Agency + Automation: Designing Artificial Intelligence into Interactive Systems]], by Jeff Heer. NeurIPS 2019.
+- 2019-12-17 Talk: [[file:watching/agency-plus-automation.org][Agency + Automation: Designing Artificial Intelligence into Interactive Systems]], by Jeff Heer. NeurIPS 2019.
