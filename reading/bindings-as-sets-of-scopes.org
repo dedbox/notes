@@ -11,11 +11,11 @@ For example,
 Starting with
 
 #+BEGIN_SRC racket
-    (let ([x 1])
-      (let-syntax ([m (syntax-rules ()
-                        [(m) x])])
-        (lambda (x)
-          (m))))
+  (let ([x 1])
+    (let-syntax ([m (syntax-rules ()
+                      [(m) x])])
+      (lambda (x)
+        (m))))
 #+END_SRC
 
 the right-hand side of the ~m~ binding has the scope set ~{aₗₑₜ}~, while the final ~m~ has scope set ~{aₗₑₜ,bₗₛ,cₗₐₘ}~ corresponding to the ~let~, ~let-syntax~, and ~lambda~ forms.
@@ -32,19 +32,23 @@ the final ~m~ is in the scope of ~let~, ~let-syntax~, and ~lambda~.
 #+BEGIN_QUOTE
 We can write scope sets next to each ~x~ and ~m~ at the point where macro expansion reaches the ~(m)~ form:
 
+#+BEGIN_SRC racket
   (let ([x{aₗₑₜ} 1])
     (let-syntax ([m{aₗₑₜ,bₗₛ} (syntax-rules ()
-                             [(m) x{aₗₑₜ}])])
+                                [(m) x{aₗₑₜ}])])
       (lambda (x{aₗₑₜ,bₗₛ,cₗₐₘ})
         (m{aₗₑₜ,bₗₛ,cₗₐₘ})))) 
+#+END_SRC
 
 The expansion of ~(m)~ produces ~x~ with the scope set ~{aₗₑₜ,dᵢₙₜᵣₒ}~, where ~dᵢₙₜᵣₒ~ is a new scope for identifiers that are introduced by the macros expansion:
 
+#+BEGIN_SRC racket
   (let ([x{aₗₑₜ} 1])
     (let-syntax ([m{aₗₑₜ,bₗₛ} (syntax-rules ()
-                             [(m) x{aₗₑₜ}])])
+                                [(m) x{aₗₑₜ}])])
       (lambda (x{aₗₑₜ,bₗₛ,cₗₐₘ})
         x{aₗₑₜ,dᵢₙₜᵣₒ})))
+#+END_SRC
 
 The absence of ~cₗₐₘ~ on the final ~x~ explains why it doesn't refer to the
 inner binding of ~x~.
