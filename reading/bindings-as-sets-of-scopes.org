@@ -1,0 +1,51 @@
+# Scope Sets for Pattern-Based Macros
+
+The notation for scope sets is too dense to consume directly. Translating the
+pattern-based examples into plain English builds intution.
+
+For example,
+
+#+BEGIN_QUOTE
+Starting with
+
+  (let ([x 1])
+    (let-syntax ([m (syntax-rules ()
+                      [(m) x])])
+      (lambda (x)
+        (m))))
+
+the right-hand side of the ~m~ binding has the scope set ~{aₗₑₜ}~, while the final ~m~ has scope set ~{aₗₑₜ,bₗₛ,cₗₐₘ}~ corresponding to the ~let~, ~let-syntax~, and ~lambda~ forms.
+#+END_QUOTE
+
+(TYPO: the ~x~ inside the transformer bound to ~m~ is free at first, but
+quasisyntaxed in its derivations. I'm going to leave them out.)
+
+More plainly:
+
+The right-hand side of the ~m~ binding is only in the scope of ~let~, while
+the final ~m~ is in the scope of ~let~, ~let-syntax~, and ~lambda~.
+
+#+BEGIN_QUOTE
+We can write scope sets next to each ~x~ and ~m~ at the point where macro expansion reaches the ~(m)~ form:
+
+  (let ([x{aₗₑₜ} 1])
+    (let-syntax ([m{aₗₑₜ,bₗₛ} (syntax-rules ()
+                             [(m) x{aₗₑₜ}])])
+      (lambda (x{aₗₑₜ,bₗₛ,cₗₐₘ})
+        (m{aₗₑₜ,bₗₛ,cₗₐₘ})))) 
+
+The expansion of ~(m)~ produces ~x~ with the scope set ~{aₗₑₜ,dᵢₙₜᵣₒ}~, where ~dᵢₙₜᵣₒ~ is a new scope for identifiers that are introduced by the macros expansion:
+
+  (let ([x{aₗₑₜ} 1])
+    (let-syntax ([m{aₗₑₜ,bₗₛ} (syntax-rules ()
+                             [(m) x{aₗₑₜ}])])
+      (lambda (x{aₗₑₜ,bₗₛ,cₗₐₘ})
+        x{aₗₑₜ,dᵢₙₜᵣₒ})))
+
+The absence of ~cₗₐₘ~ on the final ~x~ explains why it doesn't refer to the
+inner binding of ~x~.
+#+END_QUOTE
+
+In other words, invoking ~m~ /introduces/ the ~let~-bound ~x~ to the caller.
+Because that ~x~ was bound outside the scope of ~lambda~, it does not refer to
+the inner binding of ~x~.
