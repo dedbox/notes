@@ -1,6 +1,6 @@
-# Scope Sets for Pattern-Based Macros
+* Scope Sets for Pattern-Based Macros
 
-## Scope Sets
+** Scope Sets
 
 The notation for scope sets is too dense to consume directly. Translating the
 pattern-based examples into plain English builds intution.
