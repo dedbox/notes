@@ -10,11 +10,13 @@ For example,
 #+BEGIN_QUOTE
 Starting with
 
-  (let ([x 1])
-    (let-syntax ([m (syntax-rules ()
-                      [(m) x])])
-      (lambda (x)
-        (m))))
+#+BEGIN_SRC racket
+    (let ([x 1])
+      (let-syntax ([m (syntax-rules ()
+                        [(m) x])])
+        (lambda (x)
+          (m))))
+#+END_SRC
 
 the right-hand side of the ~m~ binding has the scope set ~{aₗₑₜ}~, while the final ~m~ has scope set ~{aₗₑₜ,bₗₛ,cₗₐₘ}~ corresponding to the ~let~, ~let-syntax~, and ~lambda~ forms.
 #+END_QUOTE
